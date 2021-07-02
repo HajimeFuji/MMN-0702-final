@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<p>"{{id}}. {{item}}"のメンテナンスノート</p>
+<!-- <p>table_id: {{id}}</p>
+<p>table_name: {{table_name}}</p> -->
+
+<!-- <table border="1"> -->
+<!-- tableにclassを追加 thに編集、削除を追加-->
+<table class="table_list" width="800px">    
+    <thead>
+        <tr>
+            <th>番号</th>
+            <th>作業実施日</th>
+            <th>作業内容</th>
+            <th>画像</th>
+            <th>次回通知</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    {% for item in task_list %}
+
+        <tr>
+            <td>{{item["taskid"]}}</td>
+            <td>{{item["date"]}}</td>
+            <td>{{item["task"]}}</td>
+            <!-- <td>{{item['photo']}}</td> -->
+            <td><a href="{{item['photo']}}" class="btn4">リンク</a></td>
+            <td>{{item["notice"]}}</td>
+            <td><a href="/edit/tasklist_niwa/{{id}}/{{item['taskid']}}" class="btn4">編集</a></td>
+            <!-- <td><a href="/del/tasklist_niwa/{{id}}/{{item['taskid']}}">削除</a></td> -->
+            <!-- 削除ダイアログボックス追加 -->
+            <td><a href="/del/tasklist_niwa/{{id}}/{{item['taskid']}}" onclick="return confirm('削除しますか？')" class="btn4">削除</a></td>
+        </tr>
+    {% endfor %}
+</table>
+
+<form action="/add/tasklist_niwa/{{id}}" method="POST">
+    <!-- 上のaction, method は送り先 -->
+        <p>作業内容追加</p>
+
+    <!-- --------------------6/27フォーム追加 -->
+    <div class="Form">
+        <!-- <div class="Form-Item">
+            <p class="Form-Item-Label">
+                <span class="Form-Item-Label-Required">必須</span>番号
+            </p>
+            <input type="text" class="Form-Item-Input" placeholder="例）123">
+        </div> -->
+        <div class="Form-Item">
+            <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">必須</span>実施日</p>
+            <input name="date" type="date" class="Form-Item-Input" placeholder="例）2021/1/23">
+        </div>
+        <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>作業内容</p>
+            <textarea name="task" class="Form-Item-Textarea" placeholder="例）作業いろいろ"></textarea>
+        </div>
+        <div class="Form-Item">
+            <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">必須</span>写真のリンク</p>
+            <input name="photo" type="url" class="Form-Item-Input" placeholder="https.//">
+        </div>
+        <div class="Form-Item">
+            <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">必須</span>次回通知</p>
+            <input name="notice" type="date" class="Form-Item-Input" placeholder="例）2021/1/23">
+        </div>
+    </div>
+
+<!-- ボタン変更 -->
+<div class="form_list2">  
+    <button type="submit" class="btn1">新規追加</button>
+</div> 
+
+</form>
+
+<!-- <p><a href="/list/niwa">おにわごとリストに戻る</a></p>
+<p><a href="/list/uti">おうちごとリストに戻る</a></p>
+<p><a href="/list/soto">おそとごとリストに戻る</a></p>
+<p><a href="/index">トップに戻る</a></p> -->
+
+<!-- pタグを消してボタン変更 -->
+<div class="btn_top">
+    <a href="/list/niwa">
+        <button type="button" class="btn1">おにわごとリストに戻る</button>
+    </a>
+    <a href="/list/uti">
+        <button type="button" class="btn1">おうちごとリストに戻る</button>
+    </a>
+    <a href="/list/soto">
+        <button type="button" class="btn1">おそとごとリストに戻る</button>
+    </a>
+</div>
+
+<div class="btn_top1">
+    <!-- <button type="button" class="btn5">トップに戻る</button> -->
+    <a href="/index" type="button" class="btn5">トップに戻る</a>
+</div>
+
+
+
+{% endblock %}

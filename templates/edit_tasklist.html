@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <!-- <p>table_id: {{id}}</p> -->
+    <p>作業内容の編集</p>   
+    
+    
+
+
+    <form action="/edit/tasklist/{{id}}" method="POST">
+    <!-- 上のaction, method は送り先 -->
+    <!-- <div class="form_tasklist"> 
+        <input type="hidden" value="{{task_list['taskid']}}" name = "taskid">
+        <p><input type="text" size="10" maxlength="10" value="{{task_list['date']}}" name="date">実施日（yyyy-mm-dd）</p>
+        <p><input type="text" size="10" maxlength="10" value="{{task_list['task']}}" name="task">作業内容</p>
+        <p><input type="text" size="10" maxlength="10" value="{{task_list['notice']}}" name="notice">次回通知（yyyy-mm-dd）</p>
+        <p><input type="submit" value="送信"></p>
+    -->
+    <!-- ---------------- -->
+    <div class="Form">
+        <div class="Form-Item">
+            <input type="hidden" value="{{task_list['taskid']}}" name = "taskid">
+            <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required"></span>実施日</p>
+            <input type="date" name="date" value="{{task_list['date']}}" class="Form-Item-Input">
+        </div>
+        <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required"></span>作業内容</p>
+            <input type="text" name="task" value="{{task_list['task']}}" class="Form-Item-Textarea">
+        </div> 
+        <div class="Form-Item">
+            <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required"></span>次回通知<br>年/月/日</p>
+            <input  type="date" name="notice" value="{{task_list['notice']}}" class="Form-Item-Input">
+        </div>
+    </div>
+        <p><input type="submit" value="送信" class="btn1"></p>
+    <!-- --------------- -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</form>
+
+    <div class="btn_top">
+        <a href="/index">
+            <button type="button" class="btn1">トップに戻る</button>
+        </a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+   
+<h2>おそとごとリスト</h2>
+
+
+<!-- <table border="1"> -->
+    
+<!-- tableの幅追加 -->
+<table class="table_list" width="800px">
+
+        <tr>
+            <th>番号</th>
+            <th>アイテム</th>
+            <th></th>
+            <th></th>
+        </tr>
+    
+        {% for item in sotoitem_list %}  
+    
+        <tr>
+            <td>{{item["id"]}}</td>
+            <td><a href="/tasklist/{{item['id']}}">{{item['item']}}</a></td>
+            <td><a href="/edit/soto/{{item['id']}}" class="btn4">編集</a></td>
+            <!-- <td><a href="/del/soto/{{item['id']}}">削除</a></td> -->
+            <!-- 削除ダイアログボックス追加 -->
+            <td><a href="/del/soto/{{item['id']}}" onclick="return confirm('削除しますか？')" class="btn4">削除</a></td>
+        </tr>
+
+    {% endfor %}
+</table>
+
+        <p class="bs">アイテム追加</p> 
+
+<form action="/add/item/soto" method="POST">
+    <!-- 上のaction, method は送り先 -->
+
+    <!-- ----------6/27追加フォーム -->
+    <div class="Form">
+        <div class="Form-Item">
+            <p><input type="hidden" size="10" maxlength="10" name="ios_id" value = 1></p>
+            <p class="Form-Item-Label">
+            <span class="Form-Item-Label-Required">必須</span>アイテム
+            </p>
+            <input type="text" name="item" class="Form-Item-Input" placeholder="例）物置">
+        </div>
+        <div class="Form-Item">
+            <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">必須</span>アイテム名<br>（半角英数）</p>
+            <input type="text" name="table_name" class="Form-Item-Input" placeholder="例）monooki">
+        </div>
+    </div>
+
+
+<!-- ボタン変更 -->
+    <div class="form_list2">  
+        <button type="submit" class="btn1">新規追加</button>
+    </div> 
+</form>
+
+<div class="btn_top1">
+    <a href="/index" type="button" class="btn5">トップに戻る</a>
+</div>    
+
+
+<!-- <p><a href="/index">トップに戻る</a></p> -->
+
+{% endblock %}

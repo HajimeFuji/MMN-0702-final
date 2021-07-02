@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+   
+<h2>おにわごとリスト</h2>
+
+
+<!-- <table border="1"> -->
+<!-- tableの幅追加 -->
+<table class="table_list" width="800px">
+
+        <tr>
+            <th>番号</th>
+            <th>アイテム</th>
+            <th></th>
+            <th></th>
+        </tr>
+    
+    {% for item in niwaitem_list %}  
+
+        
+        <tr>
+            <td>{{item["id"]}}</td>
+            <td><a href="/tasklist_niwa/{{item['id']}}">{{item['item']}}</a></td>
+            <td><a href="/edit/niwa/{{item['id']}}" class="btn4">編集</a></td>
+            <!-- <td><a href="/del/niwa/{{item['id']}}">削除</a></td> -->
+            <!-- 削除ダイアログボックス追加 -->
+            <td><a href="/del/niwa/{{item['id']}}" onclick="return confirm('削除しますか？')" class="btn4">削除</a></td>
+        </tr>
+
+    {% endfor %}
+</table>
+
+<p class="bs">アイテム追加</p> 
+
+<form action="/add/item/niwa" method="POST">
+    <!-- 上のaction, method は送り先 -->
+        <!-- <p><input type="hidden" size="10" maxlength="10" name="ios_id" value = 2></p>
+        <p><input type="text" size="10" maxlength="10" name="item">アイテム</p>
+        <p><input type="text" size="10" maxlength="10" name="table_name">アイテム名（半角英数）</p>
+        <p><input type="submit" value="送信"></p>  -->
+
+    <!-- ----------6/27追加フォーム -->
+<div class="Form">
+    <div class="Form-Item">
+        <p><input type="hidden" size="10" maxlength="10" name="ios_id" value = 2></p>
+        <p class="Form-Item-Label">
+        <span class="Form-Item-Label-Required">必須</span>アイテム
+        </p>
+        <input type="text" name="item" class="Form-Item-Input" placeholder="例）トマト">
+    </div>
+    <div class="Form-Item">
+        <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>アイテム名<br>（半角英数）</p>
+        <input type="text" name="table_name" class="Form-Item-Input" placeholder="例）tomato">
+    </div>
+    <!-- <input type="submit" class="Form-Btn" value="送信する"> -->
+</div>
+<!-- ボタン変更 -->
+    <div class="form_list2">  
+        <button type="submit" class="btn1">新規追加</button>
+    </div>    
+
+</form>
+        <!-- クラス追加 -->
+    <div class="btn_top1">
+        <a href="/index" type="button" class="btn5">トップに戻る
+        <!-- <button type="button" class="btn1">トップに戻る</button> -->
+        </a>
+    </div>
+
+
+
+
+<!-- <p><a href="/index">トップに戻る</a></p> -->
+
+{% endblock %}

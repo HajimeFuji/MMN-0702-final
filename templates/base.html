@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マイメンテナンスノート</title>
+    <link rel="stylesheet" href="/static/css/style.css" media="screen and (min-width:480px)">
+    <link rel="stylesheet" href="/static/css/style_sp.css" media="screen and (max-width:480px)">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.4/css/all.css">
+    <script src="../static/js/jquery-3.2.1.min.js"></script>
+    <script src="../static/js/common.js"></script>
+    
+    <!-- 追加 -->
+
+</head>
+
+<body>
+    <header>
+        <div id="page_top">
+            <a class="top" href="/index">My Maintenance Note</a>
+        </div>
+
+        <!-- <div class="hum_menu">
+            <a href="javascript:void(0);">
+                <span></span>
+                <span></span>
+                <span></span>
+            </a>
+        </div> -->
+          
+    </header>
+    <nav id="nav">  
+        <ul>
+            <li><a class="item_top" href="/index">ログイン</a></li>
+            <li><a class="item_top" href="/list/uti">おうちごと</a></li>
+            <li><a class="item_top" href="/list/soto">おそとごと</a></li>
+            <li><a class="item_top" href="/list/niwa">おにわごと</a></li>
+            <li><a class="item_top" href="/notice/tasklist">通知</a></li>
+         
+        </ul>
+    </nav>
+    <div id="hamburger">
+        <span class="inner_line" id="line1"></span>
+        <span class="inner_line" id="line2"></span>
+        <span class="inner_line" id="line3"></span>
+        
+        
+    </div>  
+
+
+    <!-- <p style="background-color: rgb(102, 55, 148); ">これはヘッダーです</p> -->
+
+
+    {% block content %}
+
+    <a href="#" class="sc_btn" id="sc_top">↑</a>
+
+    {% endblock %}
+    <!-- <p style="background-color: rgb(102, 55, 148); ">これはフッターです</p> -->
+</body>
+
+<!-- 追加 -->
+<footer>
+    <p class="footer">Copyright 赤レンガ 2021</p>
+</footer>    
+
+
+</html>
