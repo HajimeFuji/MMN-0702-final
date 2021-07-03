@@ -9,8 +9,8 @@
         <tr>
             <th>番号</th>
             <th>アイテム</th>
-            <th>編集</th>
-            <th>削除</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead> 
     {% for item in utiitem_list %}
@@ -35,12 +35,12 @@
             <div class="Form-Item">
                 <p><input type="hidden" size="10" maxlength="10" name="ios_id" value = 0></p>   
                 <p class="Form-Item-Label">
-                <span class="Form-Item-Label-Required">必須</span>番号
+                <span class="Form-Item-Label-Required">必須</span>アイテム
                 </p>
                 <input type="text" name="item" class="Form-Item-Input" placeholder="例）階段">
             </div>
             <div class="Form-Item">
-                <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>アイテム</p>
+                <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>アイテム名<br>（半角英数）</p>
                 <input type="text" name="table_name" class="Form-Item-Input" placeholder="例）kaidan">
             </div>
             <!-- <input type="submit" class="Form-Btn" value="送信する"> -->
