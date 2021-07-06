@@ -33,18 +33,23 @@ def add_post_item_soto():
     ios_id = request.form.get("ios_id")
     ios_id = int(ios_id)
     item = request.form.get("item")
-    table_name = request.form.get("table_name")
+    tablename = request.form.get("table_name")
     conn = sqlite3.connect("maintenance.db")
     c = conn.cursor()
-    # print(table_name)
-    # print("----------------------")
-    # if "table_name" in session :
-    #     return render_template("error_soto.html")
-    # else:
-    c.execute("insert into items values (null,?,?,?)", (ios_id,item,table_name))
-    c.execute("create table %s (taskid INTEGER, date DATE, task TEXT, notice DATE,PRIMARY KEY(taskid AUTOINCREMENT))" %(table_name))
-    conn.commit()
-    c.close()
+    # table_name 取得
+    c.execute("select table_name from items")
+    tb_list = []
+    tb_list = c.fetchall()
+    tbname_list = []
+    for row in tb_list:
+        tbname_list.append(row[0])
+    if tablename in tbname_list:
+        return render_template("error_soto.html")
+    else:
+        c.execute("insert into items values (null,?,?,?)", (ios_id,item,tablename))
+        c.execute("create table %s (taskid INTEGER, date DATE, task TEXT, notice DATE,PRIMARY KEY(taskid AUTOINCREMENT))" %(tablename))
+        conn.commit()
+        c.close()
     return redirect("/list/soto")
 
 #追加の処理/うちアイテム
@@ -53,16 +58,35 @@ def add_post_item_uti():
     ios_id = request.form.get("ios_id")
     ios_id = int(ios_id)
     item = request.form.get("item")
-    table_name = request.form.get("table_name")
+    tablename = request.form.get("table_name")
     conn = sqlite3.connect("maintenance.db")
     c = conn.cursor()
-    # session["table_name"] = table_name[0]
-    # if "table_name" in session :
-    #     return render_template("error_uti.html")
-    c.execute("insert into items values (null,?,?,?)", (ios_id,item,table_name))
-    c.execute("create table %s (taskid INTEGER, date DATE, task TEXT, notice DATE,PRIMARY KEY(taskid AUTOINCREMENT))" %(table_name))
-    conn.commit()
-    c.close()
+    # table_name 取得
+    c.execute("select table_name from items")
+    tb_list = []
+    tb_list = c.fetchall()
+    print(tb_list)
+    print(type(tb_list))
+    print(tb_list[0])
+    print(type(tb_list[0]))
+    print('---xxx------')
+    tbname_list = []
+    for row in tb_list:
+        print(row[0])
+        tbname_list.append(row[0])
+    print(tbname_list)
+    print(type(tbname_list))
+    print('---xxx------')
+    print(tablename)
+    print(type(tablename))
+    print(tablename in tbname_list)
+    if tablename in tbname_list:
+        return render_template("error_uti.html")
+    else:
+        c.execute("insert into items values (null,?,?,?)", (ios_id,item,tablename))
+        c.execute("create table %s (taskid INTEGER, date DATE, task TEXT, notice DATE,PRIMARY KEY(taskid AUTOINCREMENT))" %(tablename))
+        conn.commit()
+        c.close()
     return redirect("/list/uti")
 
 #追加の処理/にわアイテム
@@ -71,16 +95,23 @@ def add_post_item_niwa():
     ios_id = request.form.get("ios_id")
     ios_id = int(ios_id)
     item = request.form.get("item")
-    table_name = request.form.get("table_name")
+    tablename = request.form.get("table_name")
     conn = sqlite3.connect("maintenance.db")
     c = conn.cursor()
-    # # session["table_name"] = table_name[0]
-    # if 'table_name' in session :
-    #     return render_template("error_niwa.html")
-    c.execute("insert into items values (null,?,?,?)", (ios_id,item,table_name))
-    c.execute("create table %s (taskid INTEGER, date DATE, task TEXT, photo URL, notice DATE,PRIMARY KEY(taskid AUTOINCREMENT))" %(table_name))
-    conn.commit()
-    c.close()
+    # table_name 取得
+    c.execute("select table_name from items")
+    tb_list = []
+    tb_list = c.fetchall()
+    tbname_list = []
+    for row in tb_list:
+        tbname_list.append(row[0])
+    if tablename in tbname_list:
+        return render_template("error_niwa.html")
+    else:
+        c.execute("insert into items values (null,?,?,?)", (ios_id,item,tablename))
+        c.execute("create table %s (taskid INTEGER, date DATE, task TEXT, notice DATE,PRIMARY KEY(taskid AUTOINCREMENT))" %(tablename))
+        conn.commit()
+        c.close()
     return redirect("/list/niwa")
 
 # DBに保存されているものを表示してみよう
