@@ -70,7 +70,7 @@ def add_post_item_uti():
     print(tb_list[0])
     print(type(tb_list[0]))
     print('---xxx------')
-    #tb_list(タプル)をtbname_list（リウト）に変換
+    #tb_list(タプル)をtbname_list（リスト）に変換
     tbname_list = []
     for row in tb_list:
         print(row[0])
