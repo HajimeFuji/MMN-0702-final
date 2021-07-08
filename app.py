@@ -43,7 +43,7 @@ def add_post_item_soto():
         return render_template("error_soto.html")
     else:
         c.execute("insert into items values (null,?,?,?)", (ios_id,item,tablename))
-        c.execute("create table %s (taskid INTEGER, date DATE, task TEXT, notice DATE,PRIMARY KEY(taskid AUTOINCREMENT))" %(tablename))
+        c.execute("create table %s (taskid INTEGER, item_id INTEGER, date DATE, task TEXT, notice DATE,PRIMARY KEY(taskid AUTOINCREMENT))" %(tablename))
         conn.commit()
         c.close()
     return redirect("/list/soto")
@@ -81,7 +81,7 @@ def add_post_item_uti():
         return render_template("error_uti.html")
     else:
         c.execute("insert into items values (null,?,?,?)", (ios_id,item,tablename))
-        c.execute("create table %s (taskid INTEGER, date DATE, task TEXT, notice DATE,PRIMARY KEY(taskid AUTOINCREMENT))" %(tablename))
+        c.execute("create table %s (taskid INTEGER, item_id INTEGER, date DATE, task TEXT, notice DATE,PRIMARY KEY(taskid AUTOINCREMENT))" %(tablename))
         conn.commit()
         c.close()
     return redirect("/list/uti")
@@ -106,7 +106,7 @@ def add_post_item_niwa():
         return render_template("error_niwa.html")
     else:
         c.execute("insert into items values (null,?,?,?)", (ios_id,item,tablename))
-        c.execute("create table %s (taskid INTEGER, date DATE, task TEXT, notice DATE,PRIMARY KEY(taskid AUTOINCREMENT))" %(tablename))
+        c.execute("create table %s (taskid INTEGER, item_id INTEGER, date DATE, task TEXT, photo TEXT, notice DATE,PRIMARY KEY(taskid AUTOINCREMENT))" %(tablename))
         conn.commit()
         c.close()
     return redirect("/list/niwa")
@@ -169,7 +169,9 @@ def notice_tasklist():
     # row[0]をtable_nameの変数としてselect
         c.execute("select item from items where table_name = ?", (row[0], ))
         notice_item = c.fetchone()[0]
+        print(notice_item)
     # noticeがtoday と一致するタスクをセレクト
+        # c.execute("select items.item, %s.date, %s.task, %s.notice FROM %s JOIN items ON %s.item_id = items.id" % (row[0]))
         c.execute("select date, task, notice from %s where notice == ?" % (row[0]), (today,))
         # c.execute("select date, task, notice from %s where notice BETWEEN(today()-INTERVAL '7 day') ?" % (row[0]))
         ntlist = []
@@ -183,6 +185,7 @@ def notice_tasklist():
                 print("----zzz--------")
     #ntlistの中身をnt_list として連想配列化
                 for row3 in ntlist:
+                    # nt_list.append({"item":row3[0],"date":row3[1],"task":row3[2],"notice":row3[3]})
                     nt_list.append({"date":row3[0],"task":row3[1],"notice":row3[2]})
                     print(nt_list)
 
@@ -369,7 +372,7 @@ def add_post_task(id):
         #()はタプル型
     c.execute("select table_name from items where id = ?" , (id,))
     table_name = c.fetchone()[0]
-    c.execute("insert into %s values (null,?,?,?)" % (table_name), (date,task,notice))
+    c.execute("insert into %s values (null,?,?,?,?)" % (table_name), (id,date,task,notice))
     conn.commit()
     c.close()
     # return render_template("tasklist.html" , task_list = task_list, table_name = table_name, item = item, id = id)
@@ -388,7 +391,7 @@ def add_post_task_niwa(id):
         #()はタプル型
     c.execute("select table_name from items where id = ?" , (id,))
     table_name = c.fetchone()[0]
-    c.execute("insert into %s values (null,?,?,?,?)" % (table_name), (date,task,photo,notice))
+    c.execute("insert into %s values (null,?,?,?,?,?)" % (table_name), (id,date,task,photo,notice))
     conn.commit()
     c.close()
     # return render_template("tasklist.html" , task_list = task_list, table_name = table_name, item = item, id = id)
