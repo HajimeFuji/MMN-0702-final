@@ -13,10 +13,6 @@ app.secret_key="sunabaco"
 def init():
     return render_template('init.html')
 
-# @app.route("/<name>")
-# def greet(name):
-#     return name + "さんのページです"
-
 # DBへの接続
 @app.route("/index")
 def index():
@@ -70,11 +66,11 @@ def add_post_item_uti():
     print(tb_list[0])
     print(type(tb_list[0]))
     print('---xxx------')
-    #tb_list(タプル)をtbname_list（リスト）に変換
     tbname_list = []
     for row in tb_list:
         print(row[0])
         tbname_list.append(row[0])
+    # タプルをリストに変換
     print(tbname_list)
     print(type(tbname_list))
     print('---xxx------')
@@ -125,9 +121,11 @@ def sotoitem_list():
     c.execute("select id, item from items where ios_id = 1")
     # リスト型にする
     item_list=[]
+    # print(c.fetchall())
     for row in c.fetchall():
         #rowの要素を連想配列に記述
         item_list.append({"id":row[0],"item":row[1]})
+        # print(item_list)
     c.close()
     return render_template("sotoitem_list.html",sotoitem_list = item_list)
 
@@ -161,34 +159,43 @@ def notice_tasklist():
     print(today)
     conn = sqlite3.connect("maintenance.db")
     c = conn.cursor()
-    c.execute("select item from items where id = 1")  
-    notice_item = c.fetchone()[0]
-    print(notice_item)
-    c.execute("select date, task, notice from mado where notice == ?", (today,))
-    task_list =  []
-        
-    # print(task)
-    # print("--------")
+    # table_name 取得
+    c.execute("select table_name from items")
+    tbname_list = []
+    ntlist = []
+    nt_list = []
     for row in c.fetchall():
-        task_list.append({"date":row[0],"task":row[1],"notice":row[2]})
-        # print(row[2])
-        # notice = notice.strftime('%Y/%m/%d')
-        # print('-----yyy------')
-        # print(notice)
-        # print('-------------')
-        # print(today)
-        # notice.append({"notice":row[2]})
+        print(row[0])
+    # row[0]をtable_nameの変数としてselect
+        c.execute("select item from items where table_name = ?", (row[0], ))
+        notice_item = c.fetchone()[0]
+    # noticeがtoday と一致するタスクをセレクト
+        c.execute("select date, task, notice from %s where notice == ?" % (row[0]), (today,))
+        # c.execute("select date, task, notice from %s where notice BETWEEN(today()-INTERVAL '7 day') ?" % (row[0]))
+        ntlist = []
+        notice_list = c.fetchall()
+        print("----yyy--------")
+    #todayと一致する項目があったものだけをntlist に append
+        for row2 in notice_list:
+            if row2 is not None:
+                ntlist.append(row2)
+                print(ntlist)
+                print("----zzz--------")
+    #ntlistの中身をnt_list として連想配列化
+                for row3 in ntlist:
+                    nt_list.append({"date":row3[0],"task":row3[1],"notice":row3[2]})
+                    print(nt_list)
+
+    #noticeをすべてリストできる
+        # notice_list = c.fetchall()
+        # for row2 in notice_list:
+        #     ntlist.append(row2[0])
+
     print('------???-------')
     c.close()
-    return render_template("notice_list.html",task_list = task_list, notice_item = notice_item, today = today)
-    
-    # print(notice)
-    # if notice == today:
-    #     c.close()
-    #     return render_template("notice_list.html",task_list = task_list, today = today)
-    # else:
-    #     return "該当する通知はありません"
-        
+    return render_template("notice_list.html",nt_list = nt_list, notice_item = notice_item, today = today)
+    # return "該当する通知はありません"
+
 # そとアイテムの編集
 @app.route("/edit/soto/<int:id>")
 def edit_item_soto(id):
@@ -268,6 +275,8 @@ def del_item_soto(id):
     c = conn.cursor()
     c.execute("select table_name from items where id=?", (id,))
     table_name = c.fetchone()[0]
+    # print(table_name)
+    # print(type(table_name))
     c.execute("delete from items where id=?", (id,))
     c.execute("drop table %s" % (table_name))
     c = conn.commit()
@@ -300,7 +309,7 @@ def del_item_niwa(id):
     conn.close()
     return redirect("/list/niwa")
 
-# DBに保存されているものをリストしてみよう（うち／そと）
+# DBに保存されているタスクをリストしてみよう（うち／そと）
 @app.route("/tasklist/<int:id>")
 def tasklist(id):
     conn = sqlite3.connect("maintenance.db")
@@ -316,14 +325,16 @@ def tasklist(id):
     c.execute("select taskid, date, task, notice from %s" % (table_name))
     task_list = []
         # # タプル型(task, )から[0]要素を取り出す
+    # print(c.fetchall())
     for row in c.fetchall():    
         task_list.append({"taskid":row[0],"date":row[1], "task":row[2],"notice":row[3]})
+        # print(task_list)
     c.close()
     return render_template("tasklist.html" , task_list = task_list, table_name = table_name, item = item, id = id)
 #     else:
 #         return redirect("/login")
 
-# DBに保存されているものをリストしてみよう（にわ）
+# DBに保存されているタスクをリストしてみよう（にわ）
 @app.route("/tasklist_niwa/<int:id>")
 def tasklist_niwa(id):
     conn = sqlite3.connect("maintenance.db")
@@ -572,4 +583,4 @@ def not_found(error):
 #おまじない
 if __name__ == "__main__":
     # Flaskが持っている開発用サーバーを実行します。
-    app.run()
+    app.run(debug=True)

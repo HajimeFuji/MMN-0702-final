@@ -8,14 +8,16 @@
     <tr>
         <th>アイテム</th>
         <th>前回作業日</th>
-        <th>作業内容</th>
+        <th>前回作業内容</th>
+        <th>通知予定日</th>
     </tr>
-    {% for item in task_list %}  
+    {% for item in nt_list %}  
         
         <tr>
             <td>{{notice_item}}</td>
             <td>{{item["date"]}}</td>
             <td>{{item["task"]}}</td>
+            <td>{{item["notice"]}}</td>
             <!-- <td><a href="/tasklist_niwa/{{item['id']}}">{{item['item']}}</a></td>
             <td><a href="/edit/niwa/{{item['id']}}">編集</a></td> -->
         </tr>
