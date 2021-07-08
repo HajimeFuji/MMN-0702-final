@@ -157,6 +157,8 @@ def notice_tasklist():
     today = dt.date.today()
     # today = today.strftime('%Y/%m/%d')
     print(today)
+    time7 = today + dt.timedelta(days=-7)
+    print(time7)
     conn = sqlite3.connect("maintenance.db")
     c = conn.cursor()
     # table_name 取得
@@ -167,12 +169,12 @@ def notice_tasklist():
     for row in c.fetchall():
         print(row[0])
     # row[0]をtable_nameの変数としてselect
-        c.execute("select item from items where table_name = ?", (row[0], ))
-        notice_item = c.fetchone()[0]
-        print(notice_item)
+        # c.execute("select item from items where table_name = ?", (row[0], ))
+        # notice_item = c.fetchone()[0]
+        # print(notice_item)
     # noticeがtoday と一致するタスクをセレクト
-        # c.execute("select items.item, %s.date, %s.task, %s.notice FROM %s JOIN items ON %s.item_id = items.id" % (row[0]))
-        c.execute("select date, task, notice from %s where notice == ?" % (row[0]), (today,))
+        c.execute("select items.item, %s.date, %s.task, %s.notice FROM items JOIN %s ON items.id = %s.item_id where notice <= ? and notice >= ?" % (row[0],row[0],row[0],row[0],row[0]), (today,time7,))
+        # c.execute("select date, task, notice from %s where notice <= ? and notice >= ?" % (row[0]), (today,time7,))
         # c.execute("select date, task, notice from %s where notice BETWEEN(today()-INTERVAL '7 day') ?" % (row[0]))
         ntlist = []
         notice_list = c.fetchall()
@@ -185,9 +187,10 @@ def notice_tasklist():
                 print("----zzz--------")
     #ntlistの中身をnt_list として連想配列化
                 for row3 in ntlist:
-                    # nt_list.append({"item":row3[0],"date":row3[1],"task":row3[2],"notice":row3[3]})
-                    nt_list.append({"date":row3[0],"task":row3[1],"notice":row3[2]})
-                    print(nt_list)
+                    if row[0] is not None:
+                        nt_list.append({"item":row3[0],"date":row3[1],"task":row3[2],"notice":row3[3]})
+                        # nt_list.append({"date":row3[0],"task":row3[1],"notice":row3[2]})
+                        print(nt_list)
 
     #noticeをすべてリストできる
         # notice_list = c.fetchall()
@@ -196,7 +199,7 @@ def notice_tasklist():
 
     print('------???-------')
     c.close()
-    return render_template("notice_list.html",nt_list = nt_list, notice_item = notice_item, today = today)
+    return render_template("notice_list.html",nt_list = nt_list, today = today, time7 = time7)
     # return "該当する通知はありません"
 
 # そとアイテムの編集
