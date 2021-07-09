@@ -171,12 +171,22 @@ def notice_tasklist():
         notice_item = c.fetchone()[0]
         print(notice_item)
     # noticeがtoday と一致するタスクをセレクト
-        # c.execute("select items.item, %s.date, %s.task, %s.notice FROM %s JOIN items ON %s.item_id = items.id" % (row[0]))
         c.execute("select date, task, notice from %s where notice == ?" % (row[0]), (today,))
-        # c.execute("select date, task, notice from %s where notice BETWEEN(today()-INTERVAL '7 day') ?" % (row[0]))
         ntlist = []
         notice_list = c.fetchall()
         print("----yyy--------")
+        print(notice_list)
+    # #ntlistの中身をnt_list として連想配列化
+    #     for row2 in notice_list:
+    #         ntlist.append({"date":row2[0],"task":row2[1],"notice":row2[2]})
+    #         print(ntlist)
+    #         print("----zzz--------")
+    # #todayと一致する項目があったものだけをntlist に append
+    #         for row3 in ntlist:
+    #             if row3 is not None:
+    #                 nt_list.append(row3)
+    #                 print(nt_list)
+
     #todayと一致する項目があったものだけをntlist に append
         for row2 in notice_list:
             if row2 is not None:
@@ -184,10 +194,11 @@ def notice_tasklist():
                 print(ntlist)
                 print("----zzz--------")
     #ntlistの中身をnt_list として連想配列化
-                for row3 in ntlist:
-                    # nt_list.append({"item":row3[0],"date":row3[1],"task":row3[2],"notice":row3[3]})
-                    nt_list.append({"date":row3[0],"task":row3[1],"notice":row3[2]})
-                    print(nt_list)
+        for row3 in ntlist:
+            nt_list.append({"date":row3[0],"task":row3[1],"notice":row3[2]})
+            print(nt_list)
+
+
 
     #noticeをすべてリストできる
         # notice_list = c.fetchall()
