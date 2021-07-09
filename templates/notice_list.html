@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     
-<h2>本日（{{today}}）の通知</h2>
+<h2>この一週間 "{{time7}}～{{today}}" の通知</h2>
 <!-- <p><td>{{notice_item}}</td></p> -->
 
 <table class="table_list" width="800px">
@@ -14,7 +14,7 @@
     {% for item in nt_list %}  
         
         <tr>
-            <td>{{"notice_item"}}</td>
+            <td>{{item["item"]}}</td>
             <td>{{item["date"]}}</td>
             <td>{{item["task"]}}</td>
             <td>{{item["notice"]}}</td>
