@@ -186,11 +186,11 @@ def notice_tasklist():
                 print(ntlist)
                 print("----zzz--------")
     #ntlistの中身をnt_list として連想配列化
-                for row3 in ntlist:
-                    if row[0] is not None:
-                        nt_list.append({"item":row3[0],"date":row3[1],"task":row3[2],"notice":row3[3]})
-                        # nt_list.append({"date":row3[0],"task":row3[1],"notice":row3[2]})
-                        print(nt_list)
+        for row3 in ntlist:
+            if row[0] is not None:
+                nt_list.append({"item":row3[0],"date":row3[1],"task":row3[2],"notice":row3[3]})
+                    # nt_list.append({"date":row3[0],"task":row3[1],"notice":row3[2]})
+                print(nt_list)
 
     #noticeをすべてリストできる
         # notice_list = c.fetchall()
