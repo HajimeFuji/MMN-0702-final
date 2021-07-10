@@ -151,7 +151,7 @@ def niwaitem_list():
     c.close()
     return render_template("niwaitem_list.html",niwaitem_list = item_list)
 
-# DBから通知を表示してみよう
+# DBから通知を表示してみよう－今週の通知
 @app.route("/notice/tasklist")
 def notice_tasklist():
     today = dt.date.today()
@@ -169,13 +169,8 @@ def notice_tasklist():
     for row in c.fetchall():
         print(row[0])
     # row[0]をtable_nameの変数としてselect
-        # c.execute("select item from items where table_name = ?", (row[0], ))
-        # notice_item = c.fetchone()[0]
-        # print(notice_item)
     # noticeがtoday と一致するタスクをセレクト
         c.execute("select items.item, %s.date, %s.task, %s.notice FROM items JOIN %s ON items.id = %s.item_id where notice <= ? and notice >= ?" % (row[0],row[0],row[0],row[0],row[0]), (today,time7,))
-        # c.execute("select date, task, notice from %s where notice <= ? and notice >= ?" % (row[0]), (today,time7,))
-        # c.execute("select date, task, notice from %s where notice BETWEEN(today()-INTERVAL '7 day') ?" % (row[0]))
         ntlist = []
         notice_list = c.fetchall()
         print("----yyy--------")
@@ -189,7 +184,6 @@ def notice_tasklist():
         for row3 in ntlist:
             if row[0] is not None:
                 nt_list.append({"item":row3[0],"date":row3[1],"task":row3[2],"notice":row3[3]})
-                    # nt_list.append({"date":row3[0],"task":row3[1],"notice":row3[2]})
                 print(nt_list)
 
     #noticeをすべてリストできる
@@ -201,6 +195,67 @@ def notice_tasklist():
     c.close()
     return render_template("notice_list.html",nt_list = nt_list, today = today, time7 = time7)
     # return "該当する通知はありません"
+
+# DBから通知を表示してみよう－先週の通知
+@app.route("/notice/tasklist/lw")
+def notice_tasklist_lw():
+    today = dt.date.today()
+    time7 = today + dt.timedelta(days=-7)
+    time14 = today + dt.timedelta(days=-14)
+    conn = sqlite3.connect("maintenance.db")
+    c = conn.cursor()
+    # table_name 取得
+    c.execute("select table_name from items")
+    tbname_list = []
+    ntlist = []
+    nt_list = []
+    for row in c.fetchall():
+    # row[0]をtable_nameの変数としてselect
+    # noticeがtime7-time14 と一致するタスクをセレクト
+        c.execute("select items.item, %s.date, %s.task, %s.notice FROM items JOIN %s ON items.id = %s.item_id where notice <= ? and notice >= ?" % (row[0],row[0],row[0],row[0],row[0]), (time7,time14,))
+        ntlist = []
+        notice_list = c.fetchall()
+    #todayと一致する項目があったものだけをntlist に append
+        for row2 in notice_list:
+            if row2 is not None:
+                ntlist.append(row2)
+    #ntlistの中身をnt_list として連想配列化
+        for row3 in ntlist:
+            if row[0] is not None:
+                nt_list.append({"item":row3[0],"date":row3[1],"task":row3[2],"notice":row3[3]})
+    c.close()
+    return render_template("notice_list_lw.html",nt_list = nt_list, time7 = time7, time14 = time14)
+
+# DBから通知を表示してみよう－来週の通知
+@app.route("/notice/tasklist/nw")
+def notice_tasklist_nw():
+    today = dt.date.today()
+    time7 = today + dt.timedelta(days=-7)
+    time14 = today + dt.timedelta(days=-14)
+    time_p7 = today + dt.timedelta(days=7)
+    conn = sqlite3.connect("maintenance.db")
+    c = conn.cursor()
+    # table_name 取得
+    c.execute("select table_name from items")
+    tbname_list = []
+    ntlist = []
+    nt_list = []
+    for row in c.fetchall():
+    # row[0]をtable_nameの変数としてselect
+    # noticeがtime7-time14 と一致するタスクをセレクト
+        c.execute("select items.item, %s.date, %s.task, %s.notice FROM items JOIN %s ON items.id = %s.item_id where notice <= ? and notice >= ?" % (row[0],row[0],row[0],row[0],row[0]), (time_p7,today,))
+        ntlist = []
+        notice_list = c.fetchall()
+    #todayと一致する項目があったものだけをntlist に append
+        for row2 in notice_list:
+            if row2 is not None:
+                ntlist.append(row2)
+    #ntlistの中身をnt_list として連想配列化
+        for row3 in ntlist:
+            if row[0] is not None:
+                nt_list.append({"item":row3[0],"date":row3[1],"task":row3[2],"notice":row3[3]})
+    c.close()
+    return render_template("notice_list_nw.html",nt_list = nt_list, time_p7 = time_p7, today = today)
 
 # そとアイテムの編集
 @app.route("/edit/soto/<int:id>")

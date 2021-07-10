@@ -521,14 +521,14 @@ form {
 .btn1 { 
     /* width: 140px; */
     /* height: 50px; */
-    font-size: 16px; 
+    font-size: 18px; 
     border-radius: 4px;
 } 
 
 .btn2 {
     width: 140px;
     height: 50px;
-    font-size: 16px; 
+    font-size: 18px; 
     border-radius: 4px;
 }
 
@@ -542,7 +542,7 @@ form {
 .btn3 {
     width: 140px;
     height: 60px;
-    font-size: 16px; 
+    font-size: 18px; 
     border-radius: 8px;
     background-color:rgb(254, 255, 254);
     color: rgb(31, 30, 30);
@@ -558,7 +558,7 @@ form {
 .btn4 {
     width: 70px;
     height: 40px;
-    font-size: 16px; 
+    font-size: 18px; 
     border-radius: 8px;
     /* background-color:rgb(193, 231, 248);  */
     color: rgb(68, 147, 238);
