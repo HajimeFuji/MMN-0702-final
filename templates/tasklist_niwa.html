@@ -15,6 +15,7 @@
             <th>作業内容</th>
             <th>画像</th>
             <th>次回通知</th>
+            <!-- <th>通知要否</th> -->
             <th></th>
             <th></th>
         </tr>
@@ -28,10 +29,18 @@
             <!-- <td>{{item['photo']}}</td> -->
             <td><a href="{{item['photo']}}" class="btn4">リンク</a></td>
             <td>{{item["notice"]}}</td>
+            <!-- <td>
+                <div>
+                    <input type="checkbox" name="nt_done" value="0" checked="checked">
+                        <label>ON</label>
+                    <input type="checkbox" name="nt_done" value="1">
+                        <label>OFF</label>
+                </div>
+            </td>
             <td><a href="/edit/tasklist_niwa/{{id}}/{{item['taskid']}}" class="btn4">編集</a></td>
             <!-- <td><a href="/del/tasklist_niwa/{{id}}/{{item['taskid']}}">削除</a></td> -->
             <!-- 削除ダイアログボックス追加 -->
-            <td><a href="/del/tasklist_niwa/{{id}}/{{item['taskid']}}" onclick="return confirm('削除しますか？')" class="btn4">削除</a></td>
+            <!-- <td><a href="/del/tasklist_niwa/{{id}}/{{item['taskid']}}" onclick="return confirm('削除しますか？')" class="btn4">削除</a></td> -->
         </tr>
     {% endfor %}
 </table>
@@ -64,6 +73,7 @@
             <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">必須</span>次回通知</p>
             <input name="notice" type="date" class="Form-Item-Input" placeholder="例）2021/1/23">
         </div>
+            <input type="hidden" value="0" name = "nt_id">
     </div>
 
 <!-- ボタン変更 -->
