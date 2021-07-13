@@ -182,7 +182,7 @@ def notice_tasklist():
                 # print("----zzz--------")
     #ntlistの中身をnt_list として連想配列化
         for row3 in ntlist:
-            if row[0] is not None:
+            if row3[0] is not None:
                 nt_list.append({"item":row3[0],"date":row3[1],"task":row3[2],"notice":row3[3],"id":row3[4],"taskid":row3[5]})
                 # print(nt_list)
 
@@ -491,13 +491,21 @@ def tasklist(id):
     table_name = c.fetchone()[0]
     # print(table_name)
     # table = "table_name"
-    c.execute("select taskid, date, task, notice from %s" % (table_name))
+    c.execute("select taskid, date, task, notice, nt_id from %s" % (table_name))
+    # tasklist = c.fetchall()
     task_list = []
-        # # タプル型(task, )から[0]要素を取り出す
-    # print(c.fetchall())
+    #     # # タプル型(task, )から[0]要素を取り出す
     for row in c.fetchall():    
-        task_list.append({"taskid":row[0],"date":row[1], "task":row[2],"notice":row[3]})
-        # print(task_list)
+        task_list.append({"taskid":row[0],"date":row[1], "task":row[2],"notice":row[3], "nt_id":row[4]})
+    #     print(task_list)
+    # for 'nt_id' in task_list:
+    #     # print(row2[4])
+    #     print(nt_id)
+    #     if 'nt_id' == 1:
+    #         'nt_id' = "済み"
+    #     elif 'nt_id' == 0:
+    #         'nt_id' = "要"
+    #         print(task_list)
     c.close()
     return render_template("tasklist.html" , task_list = task_list, table_name = table_name, item = item, id = id)
 #     else:
@@ -516,11 +524,11 @@ def tasklist_niwa(id):
     table_name = c.fetchone()[0]
     # print(table_name)
     # table = "table_name"
-    c.execute("select taskid, date, task, photo, notice from %s" % (table_name))
+    c.execute("select taskid, date, task, photo, notice, nt_id from %s" % (table_name))
     task_list = []
         # # タプル型(task, )から[0]要素を取り出す
     for row in c.fetchall():    
-        task_list.append({"taskid":row[0],"date":row[1], "task":row[2],"photo":row[3],"notice":row[4]})
+        task_list.append({"taskid":row[0],"date":row[1], "task":row[2],"photo":row[3],"notice":row[4],"nt_id":row[5]})
     c.close()
     return render_template("tasklist_niwa.html" , task_list = task_list, table_name = table_name, item = item, id = id)
 #     else:
@@ -597,9 +605,11 @@ def edit_tasklist_get(id,taskid):
     c.execute("select task from %s where taskid=?" % (table_name), (taskid,))
     task = c.fetchone()[0]
     c.execute("select notice from %s where taskid=?" % (table_name), (taskid,))
-    notice = c.fetchone()[0]
+    notice = c.fetchone()[0]   
+    c.execute("select nt_id from %s where taskid=?" % (table_name), (taskid,))
+    nt_id = c.fetchone()[0] 
     c.close()
-    task_list = {"taskid":taskid, "date":date, "task":task, "notice":notice}
+    task_list = {"taskid":taskid, "date":date, "task":task, "notice":notice, "nt_id":nt_id}
     return render_template("edit_tasklist.html", task_list = task_list, id = id)
 
 @app.route("/edit/tasklist/<int:id>", methods = ["POST"])
@@ -609,6 +619,7 @@ def tasklist_update(id):
     date = request.form.get("date")
     task = request.form.get("task")
     notice = request.form.get("notice")
+    nt_id = request.form.get("nt_id")
     conn = sqlite3.connect("maintenance.db")
     c =conn.cursor()
     c.execute("select table_name from items where id = ?" , (id,))
@@ -616,6 +627,7 @@ def tasklist_update(id):
     c.execute("update %s set date=? where taskid = ?" %(table_name), (date,taskid,))
     c.execute("update %s set task=? where taskid = ?" %(table_name), (task,taskid,))
     c.execute("update %s set notice=? where taskid = ?" %(table_name), (notice,taskid,))
+    c.execute("update %s set nt_id=? where taskid = ?" %(table_name), (nt_id,taskid,))
     conn.commit()
     c.close()
     return redirect("/tasklist/%s" %(id))  
