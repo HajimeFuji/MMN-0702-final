@@ -151,14 +151,14 @@ def niwaitem_list():
     c.close()
     return render_template("niwaitem_list.html",niwaitem_list = item_list)
 
-# DBから通知を表示してみよう
+# DBから通知を表示してみよう－今週の通知
 @app.route("/notice/tasklist")
 def notice_tasklist():
     today = dt.date.today()
     # today = today.strftime('%Y/%m/%d')
-    print(today)
+    # print(today)
     time7 = today + dt.timedelta(days=-7)
-    print(time7)
+    # print(time7)
     conn = sqlite3.connect("maintenance.db")
     c = conn.cursor()
     # table_name 取得
@@ -167,40 +167,203 @@ def notice_tasklist():
     ntlist = []
     nt_list = []
     for row in c.fetchall():
-        print(row[0])
+        # print(row[0])
     # row[0]をtable_nameの変数としてselect
-        # c.execute("select item from items where table_name = ?", (row[0], ))
-        # notice_item = c.fetchone()[0]
-        # print(notice_item)
     # noticeがtoday と一致するタスクをセレクト
-        c.execute("select items.item, %s.date, %s.task, %s.notice FROM items JOIN %s ON items.id = %s.item_id where notice <= ? and notice >= ?" % (row[0],row[0],row[0],row[0],row[0]), (today,time7,))
-        # c.execute("select date, task, notice from %s where notice <= ? and notice >= ?" % (row[0]), (today,time7,))
-        # c.execute("select date, task, notice from %s where notice BETWEEN(today()-INTERVAL '7 day') ?" % (row[0]))
+        c.execute("select items.item, %s.date, %s.task, %s.notice, items.id, %s.taskid FROM items JOIN %s ON items.id = %s.item_id where notice <= ? and notice >= ? and nt_id =0" % (row[0],row[0],row[0],row[0],row[0],row[0]), (today,time7,))
         ntlist = []
         notice_list = c.fetchall()
-        print("----yyy--------")
+        # print("----yyy--------")
     #todayと一致する項目があったものだけをntlist に append
         for row2 in notice_list:
             if row2 is not None:
                 ntlist.append(row2)
-                print(ntlist)
-                print("----zzz--------")
+                # print(ntlist)
+                # print("----zzz--------")
     #ntlistの中身をnt_list として連想配列化
         for row3 in ntlist:
-            if row[0] is not None:
-                nt_list.append({"item":row3[0],"date":row3[1],"task":row3[2],"notice":row3[3]})
-                    # nt_list.append({"date":row3[0],"task":row3[1],"notice":row3[2]})
-                print(nt_list)
+            if row3[0] is not None:
+                nt_list.append({"item":row3[0],"date":row3[1],"task":row3[2],"notice":row3[3],"id":row3[4],"taskid":row3[5]})
+                # print(nt_list)
 
     #noticeをすべてリストできる
         # notice_list = c.fetchall()
         # for row2 in notice_list:
         #     ntlist.append(row2[0])
 
-    print('------???-------')
+    # print('------???-------')
     c.close()
     return render_template("notice_list.html",nt_list = nt_list, today = today, time7 = time7)
     # return "該当する通知はありません"
+
+# 今週の通知表示から実施済みタスクを表示しないようにする－今週の通知
+@app.route("/notice/tasklist/nt/<int:id>/<int:taskid>",methods=["POST"])
+def notice_tasklist_nt(id,taskid):
+    today = dt.date.today()
+    time7 = today + dt.timedelta(days=-7)
+# まず実施済タスクのnt_idを1にupdateする
+    nt_id = request.form.get("nt_id")
+    nt_id = int(nt_id)
+    conn = sqlite3.connect("maintenance.db")
+    c = conn.cursor()
+    c.execute("select table_name from items where id = ?" , (id,))
+    table_name = c.fetchone()[0]
+    c.execute("update %s set nt_id = 1 where taskid = ?" % (table_name), (taskid,))
+    # table_name 取得
+    c.execute("select table_name from items")
+    tbname_list = []
+    ntlist = []
+    nt_list = []
+    for row in c.fetchall():
+    # row[0]をtable_nameの変数としてselect　# noticeがtoday と一致するタスクをセレクト
+        c.execute("select items.item, %s.date, %s.task, %s.notice, items.id, %s.taskid FROM items JOIN %s ON items.id = %s.item_id where notice <= ? and notice >= ? and nt_id =0" % (row[0],row[0],row[0],row[0],row[0],row[0]), (today,time7,))
+        ntlist = []
+        notice_list = c.fetchall()
+    #todayと一致する項目があったものだけをntlist に append
+        for row2 in notice_list:
+            if row2 is not None:
+                ntlist.append(row2)
+    #ntlistの中身をnt_list として連想配列化
+        for row3 in ntlist:
+            if row[0] is not None:
+                nt_list.append({"item":row3[0],"date":row3[1],"task":row3[2],"notice":row3[3],"id":row3[4],"taskid":row3[5]})
+    conn.commit()
+    c.close()
+    return render_template("notice_list.html",nt_list = nt_list, today = today, time7 = time7)
+
+# DBから通知を表示してみよう－先週の通知
+@app.route("/notice/tasklist/lw")
+def notice_tasklist_lw():
+    today = dt.date.today()
+    time7 = today + dt.timedelta(days=-7)
+    time14 = today + dt.timedelta(days=-14)
+    conn = sqlite3.connect("maintenance.db")
+    c = conn.cursor()
+    # table_name 取得
+    c.execute("select table_name from items")
+    tbname_list = []
+    ntlist = []
+    nt_list = []
+    for row in c.fetchall():
+    # row[0]をtable_nameの変数としてselect
+    # noticeがtime7-time14 と一致するタスクをセレクト
+        c.execute("select items.item, %s.date, %s.task, %s.notice, items.id, %s.taskid FROM items JOIN %s ON items.id = %s.item_id where notice <= ? and notice >= ? and nt_id =0" % (row[0],row[0],row[0],row[0],row[0],row[0]), (time7,time14,))
+        ntlist = []
+        notice_list = c.fetchall()
+    #todayと一致する項目があったものだけをntlist に append
+        for row2 in notice_list:
+            if row2 is not None:
+                ntlist.append(row2)
+    #ntlistの中身をnt_list として連想配列化
+        for row3 in ntlist:
+            if row[0] is not None:
+                nt_list.append({"item":row3[0],"date":row3[1],"task":row3[2],"notice":row3[3],"id":row3[4],"taskid":row3[5]})
+    c.close()
+    return render_template("notice_list_lw.html",nt_list = nt_list, time7 = time7, time14 = time14)
+
+# 先週の通知表示から実施済みタスクを表示しないようにする－先週の通知
+@app.route("/notice/tasklist/nt_lw/<int:id>/<int:taskid>",methods=["POST"])
+def notice_tasklist_nt_lw(id,taskid):
+    today = dt.date.today()
+    time7 = today + dt.timedelta(days=-7)
+    time14 = today + dt.timedelta(days=-14)
+# まず実施済タスクのnt_idを1にupdateする
+    nt_id = request.form.get("nt_id")
+    nt_id = int(nt_id)
+    conn = sqlite3.connect("maintenance.db")
+    c = conn.cursor()
+    c.execute("select table_name from items where id = ?" , (id,))
+    table_name = c.fetchone()[0]
+    c.execute("update %s set nt_id = 1 where taskid = ?" % (table_name), (taskid,))
+    # table_name 取得
+    c.execute("select table_name from items")
+    tbname_list = []
+    ntlist = []
+    nt_list = []
+    for row in c.fetchall():
+    # row[0]をtable_nameの変数としてselect　# noticeがtoday と一致するタスクをセレクト
+        c.execute("select items.item, %s.date, %s.task, %s.notice, items.id, %s.taskid FROM items JOIN %s ON items.id = %s.item_id where notice <= ? and notice >= ? and nt_id =0" % (row[0],row[0],row[0],row[0],row[0],row[0]), (time7,time14,))
+        ntlist = []
+        notice_list = c.fetchall()
+    #todayと一致する項目があったものだけをntlist に append
+        for row2 in notice_list:
+            if row2 is not None:
+                ntlist.append(row2)
+    #ntlistの中身をnt_list として連想配列化
+        for row3 in ntlist:
+            if row[0] is not None:
+                nt_list.append({"item":row3[0],"date":row3[1],"task":row3[2],"notice":row3[3]})
+    conn.commit()
+    c.close()
+    return render_template("notice_list_lw.html",nt_list = nt_list, time14 = time14, time7 = time7)
+
+# DBから通知を表示してみよう－来週の通知
+@app.route("/notice/tasklist/nw")
+def notice_tasklist_nw():
+    today = dt.date.today()
+    time7 = today + dt.timedelta(days=-7)
+    time14 = today + dt.timedelta(days=-14)
+    time_p7 = today + dt.timedelta(days=7)
+    conn = sqlite3.connect("maintenance.db")
+    c = conn.cursor()
+    # table_name 取得
+    c.execute("select table_name from items")
+    tbname_list = []
+    ntlist = []
+    nt_list = []
+    for row in c.fetchall():
+    # row[0]をtable_nameの変数としてselect
+    # noticeがtime7-time14 と一致するタスクをセレクト
+        c.execute("select items.item, %s.date, %s.task, %s.notice, items.id, %s.taskid FROM items JOIN %s ON items.id = %s.item_id where notice <= ? and notice >= ? and nt_id =0" % (row[0],row[0],row[0],row[0],row[0],row[0]), (time_p7,today,))
+        ntlist = []
+        notice_list = c.fetchall()
+    #todayと一致する項目があったものだけをntlist に append
+        for row2 in notice_list:
+            if row2 is not None:
+                ntlist.append(row2)
+    #ntlistの中身をnt_list として連想配列化
+        for row3 in ntlist:
+            if row[0] is not None:
+                nt_list.append({"item":row3[0],"date":row3[1],"task":row3[2],"notice":row3[3],"id":row3[4],"taskid":row3[5]})
+    c.close()
+    return render_template("notice_list_nw.html",nt_list = nt_list, time_p7 = time_p7, today = today)
+
+# 来週の通知表示から実施済みタスクを表示しないようにする－来週の通知
+@app.route("/notice/tasklist/nt_nw/<int:id>/<int:taskid>",methods=["POST"])
+def notice_tasklist_nt_nw(id,taskid):
+    today = dt.date.today()
+    time7 = today + dt.timedelta(days=-7)
+    time14 = today + dt.timedelta(days=-14)
+    time_p7 = today + dt.timedelta(days=7)
+# まず実施済タスクのnt_idを1にupdateする
+    nt_id = request.form.get("nt_id")
+    nt_id = int(nt_id)
+    conn = sqlite3.connect("maintenance.db")
+    c = conn.cursor()
+    c.execute("select table_name from items where id = ?" , (id,))
+    table_name = c.fetchone()[0]
+    c.execute("update %s set nt_id = 1 where taskid = ?" % (table_name), (taskid,))
+    # table_name 取得
+    c.execute("select table_name from items")
+    tbname_list = []
+    ntlist = []
+    nt_list = []
+    for row in c.fetchall():
+    # row[0]をtable_nameの変数としてselect　# noticeがtoday と一致するタスクをセレクト
+        c.execute("select items.item, %s.date, %s.task, %s.notice, items.id, %s.taskid FROM items JOIN %s ON items.id = %s.item_id where notice <= ? and notice >= ? and nt_id =0" % (row[0],row[0],row[0],row[0],row[0],row[0]), (time_p7,today,))
+        ntlist = []
+        notice_list = c.fetchall()
+    #todayと一致する項目があったものだけをntlist に append
+        for row2 in notice_list:
+            if row2 is not None:
+                ntlist.append(row2)
+    #ntlistの中身をnt_list として連想配列化
+        for row3 in ntlist:
+            if row[0] is not None:
+                nt_list.append({"item":row3[0],"date":row3[1],"task":row3[2],"notice":row3[3]})
+    conn.commit()
+    c.close()
+    return render_template("notice_list_nw.html",nt_list = nt_list, time_p7 = time_p7, today = today)
 
 # そとアイテムの編集
 @app.route("/edit/soto/<int:id>")
@@ -328,13 +491,21 @@ def tasklist(id):
     table_name = c.fetchone()[0]
     # print(table_name)
     # table = "table_name"
-    c.execute("select taskid, date, task, notice from %s" % (table_name))
+    c.execute("select taskid, date, task, notice, nt_id from %s" % (table_name))
+    # tasklist = c.fetchall()
     task_list = []
-        # # タプル型(task, )から[0]要素を取り出す
-    # print(c.fetchall())
+    #     # # タプル型(task, )から[0]要素を取り出す
     for row in c.fetchall():    
-        task_list.append({"taskid":row[0],"date":row[1], "task":row[2],"notice":row[3]})
-        # print(task_list)
+        task_list.append({"taskid":row[0],"date":row[1], "task":row[2],"notice":row[3], "nt_id":row[4]})
+    #     print(task_list)
+    # for 'nt_id' in task_list:
+    #     # print(row2[4])
+    #     print(nt_id)
+    #     if 'nt_id' == 1:
+    #         'nt_id' = "済み"
+    #     elif 'nt_id' == 0:
+    #         'nt_id' = "要"
+    #         print(task_list)
     c.close()
     return render_template("tasklist.html" , task_list = task_list, table_name = table_name, item = item, id = id)
 #     else:
@@ -353,11 +524,11 @@ def tasklist_niwa(id):
     table_name = c.fetchone()[0]
     # print(table_name)
     # table = "table_name"
-    c.execute("select taskid, date, task, photo, notice from %s" % (table_name))
+    c.execute("select taskid, date, task, photo, notice, nt_id from %s" % (table_name))
     task_list = []
         # # タプル型(task, )から[0]要素を取り出す
     for row in c.fetchall():    
-        task_list.append({"taskid":row[0],"date":row[1], "task":row[2],"photo":row[3],"notice":row[4]})
+        task_list.append({"taskid":row[0],"date":row[1], "task":row[2],"photo":row[3],"notice":row[4],"nt_id":row[5]})
     c.close()
     return render_template("tasklist_niwa.html" , task_list = task_list, table_name = table_name, item = item, id = id)
 #     else:
@@ -370,15 +541,31 @@ def add_post_task(id):
     date = request.form.get("date")
     task = request.form.get("task")
     notice = request.form.get("notice")
+    nt_id = request.form.get("nt_id")
+    nt_id = int(nt_id)
     conn = sqlite3.connect("maintenance.db")
     c = conn.cursor()
         #()はタプル型
     c.execute("select table_name from items where id = ?" , (id,))
     table_name = c.fetchone()[0]
-    c.execute("insert into %s values (null,?,?,?,?)" % (table_name), (id,date,task,notice))
+    c.execute("insert into %s values (null,?,?,?,?,?)" % (table_name), (id,date,task,notice,nt_id))
     conn.commit()
     c.close()
     # return render_template("tasklist.html" , task_list = task_list, table_name = table_name, item = item, id = id)
+    return redirect("/tasklist/%s" %(id))  
+
+# 通知要否の処理/タスク（うち／そと）
+@app.route("/edit/tasklist/nt/<int:id>/<int:taskid>",methods=["POST"])
+def edit_post_task_nt(id,taskid):
+    nt_id = request.form.get("nt_id")
+    nt_id = int(nt_id)
+    conn = sqlite3.connect("maintenance.db")
+    c = conn.cursor()
+    c.execute("select table_name from items where id = ?" , (id,))
+    table_name = c.fetchone()[0]
+    c.execute("update %s set nt_id = 1 where taskid = ?" % (table_name), (taskid,))
+    conn.commit()
+    c.close()
     return redirect("/tasklist/%s" %(id))  
 
 # 追加の処理/タスク（にわ）
@@ -389,12 +576,14 @@ def add_post_task_niwa(id):
     task = request.form.get("task")
     photo = request.form.get("photo")
     notice = request.form.get("notice")
+    nt_id = request.form.get("nt_id")
+    nt_id = int(nt_id)
     conn = sqlite3.connect("maintenance.db")
     c = conn.cursor()
         #()はタプル型
     c.execute("select table_name from items where id = ?" , (id,))
     table_name = c.fetchone()[0]
-    c.execute("insert into %s values (null,?,?,?,?,?)" % (table_name), (id,date,task,photo,notice))
+    c.execute("insert into %s values (null,?,?,?,?,?,?)" % (table_name), (id,date,task,photo,notice,nt_id))
     conn.commit()
     c.close()
     # return render_template("tasklist.html" , task_list = task_list, table_name = table_name, item = item, id = id)
@@ -416,9 +605,11 @@ def edit_tasklist_get(id,taskid):
     c.execute("select task from %s where taskid=?" % (table_name), (taskid,))
     task = c.fetchone()[0]
     c.execute("select notice from %s where taskid=?" % (table_name), (taskid,))
-    notice = c.fetchone()[0]
+    notice = c.fetchone()[0]   
+    c.execute("select nt_id from %s where taskid=?" % (table_name), (taskid,))
+    nt_id = c.fetchone()[0] 
     c.close()
-    task_list = {"taskid":taskid, "date":date, "task":task, "notice":notice}
+    task_list = {"taskid":taskid, "date":date, "task":task, "notice":notice, "nt_id":nt_id}
     return render_template("edit_tasklist.html", task_list = task_list, id = id)
 
 @app.route("/edit/tasklist/<int:id>", methods = ["POST"])
@@ -428,6 +619,7 @@ def tasklist_update(id):
     date = request.form.get("date")
     task = request.form.get("task")
     notice = request.form.get("notice")
+    nt_id = request.form.get("nt_id")
     conn = sqlite3.connect("maintenance.db")
     c =conn.cursor()
     c.execute("select table_name from items where id = ?" , (id,))
@@ -435,6 +627,7 @@ def tasklist_update(id):
     c.execute("update %s set date=? where taskid = ?" %(table_name), (date,taskid,))
     c.execute("update %s set task=? where taskid = ?" %(table_name), (task,taskid,))
     c.execute("update %s set notice=? where taskid = ?" %(table_name), (notice,taskid,))
+    c.execute("update %s set nt_id=? where taskid = ?" %(table_name), (nt_id,taskid,))
     conn.commit()
     c.close()
     return redirect("/tasklist/%s" %(id))  
