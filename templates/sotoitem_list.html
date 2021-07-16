@@ -3,34 +3,29 @@
    
 <h2>おそとごとリスト</h2>
 
-
-<!-- <table border="1"> -->
-    
 <!-- tableの幅追加 -->
-<table class="table_list" width="800px">
-
+<table class="table_list" width="60%">
+    <thead>
         <tr>
-            <th>番号</th>
+            <!-- <th>番号</th> -->
             <th>アイテム</th>
             <th></th>
             <th></th>
         </tr>
-    
+    </thead>
         {% for item in sotoitem_list %}  
-    
+    <tdoby>
         <tr>
-            <td>{{item["id"]}}</td>
-            <td><a href="/tasklist/{{item['id']}}">{{item['item']}}</a></td>
+            <!-- <td>{{item["id"]}}</td> -->
+            <th label="アイテム"><a href="/tasklist/{{item['id']}}"  class="btn4">{{item['item']}}</a></th>
             <td><a href="/edit/soto/{{item['id']}}" class="btn4">編集</a></td>
-            <!-- <td><a href="/del/soto/{{item['id']}}">削除</a></td> -->
-            <!-- 削除ダイアログボックス追加 -->
             <td><a href="/del/soto/{{item['id']}}" onclick="return confirm('削除しますか？')" class="btn4">削除</a></td>
         </tr>
-
+    </tdoby>
     {% endfor %}
 </table>
 
-        <p class="bs">アイテム追加</p> 
+        <h3>アイテム追加</h3> 
 
 <form action="/add/item/soto" method="POST">
     <!-- 上のaction, method は送り先 -->
@@ -50,9 +45,7 @@
         </div>
     </div>
 
-
-<!-- ボタン変更 -->
-    <div class="form_list2">  
+    <div>  
         <button type="submit" class="btn1">新規追加</button>
     </div> 
 </form>
@@ -60,8 +53,5 @@
 <div class="btn_top1">
     <a href="/index" type="button" class="btn5">トップに戻る</a>
 </div>    
-
-
-<!-- <p><a href="/index">トップに戻る</a></p> -->
 
 {% endblock %}
