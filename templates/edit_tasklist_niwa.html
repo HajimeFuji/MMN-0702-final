@@ -1,21 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <!-- <p>table_id: {{id}}</p> -->
-    <p>作業内容の編集</p>
+    <h3>作業内容の編集</h3>
         
-    <form action="/edit/tasklist_niwa/{{id}}" method="POST">
-    <!-- 上のaction, method は送り先  -->
-        <!-- <input type="hidden" value="{{task_list['taskid']}}" name = "taskid">
-        <p><input type="text" size="10" maxlength="10" value="{{task_list['date']}}" name="date">実施日（yyyy-mm-dd）</p>
-        <p><input type="text" size="10" maxlength="100" value="{{task_list['task']}}" name="task">作業内容</p>
-        <p><input type="text" size="10" maxlength="500" value="{{task_list['photo']}}" name="photo">写真のリンク</p>
-        <p><input type="text" size="10" maxlength="10" value="{{task_list['notice']}}" name="notice">次回通知（yyyy-mm-dd）</p>
-        <p><input type="submit" value="送信"></p> -->
-    <!-- </form>
-
-
-<!-- -----------------------------------ここはフォームで良いのかな？ -->
+<form action="/edit/tasklist_niwa/{{id}}" method="POST">
     <div class="Form">
         <div class="Form-Item">
             <input type="hidden" value="{{task_list['taskid']}}" name = "taskid">
@@ -40,18 +28,10 @@
         </div>
     </div>
         <p><input type="submit" value="送信" class="btn1"></p>
-<!-- ----------------------------------- -->
-    </form>
+</form>
 
-    <div class="btn_top">
-        <a href="/index">
-            <button type="button" class="btn1">トップに戻る</button>
-        </a>
-    </div>
-
-
-
-
-
+<div class="btn_top1">
+    <a href="/index" type="button" class="btn5">トップに戻る</a>
+</div>  
 
 {% endblock %}

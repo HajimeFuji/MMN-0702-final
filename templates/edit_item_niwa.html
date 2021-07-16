@@ -1,13 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
 <form action="/edit/niwa" method="post">
-    <!-- <p class="form_edit"> -->
-        <!-- <input type="hidden" value="{{item['id']}}" name = "id">  -->
-        <!-- <input type="text" value="{{item['item']}}" name = "item">  -->
-        <!-- <input type="submit" value="送信"> -->
-    <!-- </p> -->
     <div class="form_edit">
         <div class="Form-Item">
             <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required"></span>編集</p>
@@ -18,19 +12,13 @@
             <input type="submit" value="送信" class="btn1">
         </div>
     </div>
-
 </form>
-<!-- topへ戻るボタン追加 -->
-    <div class="btn_top1">
-        <a href="/index">
-            <button type="button" class="btn5">トップに戻る</button>
-        </a>
-    </div>
 
+<div class="btn_top1">
+    <a href="/index" type="button" class="btn5">トップに戻る</a>
+</div> 
 
-
-
-
+{% endblock %}
 
 
 

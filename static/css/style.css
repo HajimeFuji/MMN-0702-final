@@ -63,10 +63,9 @@ body {
     margin-top: 3em;
 }
 
-
 strong {
     color: #ff0000;
-  }
+}
 
 .top {
     width: 100%;    
@@ -79,30 +78,10 @@ strong {
     /* opacity: 0.8; */
 }
 
-header ul {
-    width: 100%;
-    background-color: rgb(236, 245, 222);
-    font-size: 30px;
-    font-style: italic;
-    margin: 0 auto;
-    text-align: center;
-    display: flex;
-    font-family: fantasy;
-    /* opacity: 0.8; */
-}
-
-header li {
-    color: #acacac;
-    width: 25%;
-    line-height: 40px;
-    transition: 0.2s;
-}
-
 .item_2 {
     width: 100%;
     justify-content: center;
 }
-
 
 .item_top {
     font-size: 30px;
@@ -123,7 +102,7 @@ body {
 
 p  {
     text-align: center;
-    font-size: 36px;
+    font-size: 24px;
     /* padding: 0 0 0 50px; */
     /* text-align: left; */
 } 
@@ -133,7 +112,13 @@ a {
     padding: 10px 30px;
     display: inline-block;
     font-size: 24px;
-}   
+} 
+
+h1 {
+    font-size: 36px;
+    margin: 30px; 
+    text-align:center;
+}
 
 h2 {
     font-size: 36px;
@@ -142,15 +127,25 @@ h2 {
     border-bottom: solid 4px rgb(105, 96, 96);    
 }
 
+h3 {
+    font-size: 24px;
+    text-align:center;
+    margin: 30px; 
+}
+
+caption {
+    font-size: 20px;
+    caption-side: bottom; 
+    color: #5d6d7e;
+    text-align: right;
+}
+
 table { 
     table-layout: auto;
-    width: 80%;
+    /* width: 80%; */
     margin-left: auto;
     margin-right: auto;
-    background: url();
-    /* 追加部分２６日 */
     border-radius: 16px;
-    /* background-color: rgb(247, 247, 217); */
 } 
 
 table th {
@@ -164,31 +159,63 @@ td {
 
 /* テーブルコード コピペ*/
 .table_list{
-    width: 80%;
-    text-align: center;
     border-collapse: collapse;
-    border-spacing: 0;
 }
 
-.table_list th {
-    padding: 10px;
-    border-bottom: solid 4px #778ca3;
-    color: #778ca3
+.table_list thead th {
+    background: #3EB1C6;
+    padding: 10px 15px;
+    border-bottom:#FFF solid 1px;
+    color:#FFF;
 }
 
-.table_list td {
-    padding: 10px;
-    border-bottom: solid 1px #778ca3;
-}
-/* .table_list a {
-    padding: 10px;
-    border-bottom: solid 1px #778ca3;
+/* .table_list thead th:last-child {
+	border-right:#FFF solid 2px;
 } */
 
-/* --------------- */
+.table_list tbody th {
+	background:#7fcad8;
+	color:#FFF;
+	padding:10px 15px;
+	border-bottom:#FFF solid 1px;
+	vertical-align:middle;
+}
+
+.table_list tbody tr:last-child th {
+	border-bottom:#FFF solid 1px;
+}
+
+.table_list tbody td {
+	background:#FFF;
+	padding:10px 15px;
+	/* border-left:#3EB1C6 solid 1px; */
+	border-bottom:#3EB1C6 solid 1px;
+	vertical-align:middle;
+}
+
+@media screen and (max-width: 640px) {
+.table_list thead {
+    display:none;
+}
+.table_list tbody th {
+    display:block;
+}
+.table_list tbody td {
+    display:block;
+}
+.table_list tbody td::before {
+    content: attr(label);
+    float: left;
+    clear:both;
+    font-weight:bold;
+}
+table.table01 tbody td p {
+    padding-left:6em;
+}
+}
 
 form {
-    margin-top: 80px;
+    margin-top: 20px;
     margin-left: auto;
     margin-right: auto; 
     max-width: 720px;
@@ -199,7 +226,7 @@ form {
     margin-left: auto;
     margin-right: auto; 
     max-width: 720px;
-    height: 490px;
+    /* height: 490px; */
 }
 
 .form_tasklist {
@@ -211,16 +238,12 @@ form {
 
 /* --------------------------フォームコピペ */
 .Form {
-    margin-top: 80px;
+    margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
     max-width: 720px;
 }
-@media screen and (max-width: 480px) {
-    .Form {
-    margin-top: 40px;
-    }
-}
+
 .Form-Item {
     border-top: 1px solid #ddd;
     padding-top: 24px;
@@ -229,8 +252,8 @@ form {
     display: flex;
     align-items: center;
 }
-@media screen and (max-width: 480px) {
-    .Form-Item {
+@media screen and (max-width: 640px) {
+.Form-Item {
     padding-left: 14px;
     padding-right: 14px;
     padding-top: 16px;
@@ -243,15 +266,16 @@ form {
 }
 .Form-Item-Label {
     width: 100%;
-    max-width: 248px;
+    max-width: 180px;
     letter-spacing: 0.05em;
     font-weight: bold;
     font-size: 18px;
+    text-align: left;
 }
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 640px) {
     .Form-Item-Label {
     max-width: inherit;
-    display: flex;
+    display: block;
     align-items: center;
     font-size: 15px;
     }
@@ -260,8 +284,8 @@ form {
     margin-top: 8px;
     margin-bottom: auto;
 }
-@media screen and (max-width: 480px) {
-    .Form-Item-Label.isMsg {
+@media screen and (max-width: 640px) {
+.Form-Item-Label.isMsg {
     margin-top: 0;
     }
 }
@@ -277,8 +301,8 @@ form {
     color: rgb(61, 60, 60);
     font-size: 14px;
 }
-@media screen and (max-width: 480px) {
-    .Form-Item-Label-Required {
+@media screen and (max-width: 640px) {
+.Form-Item-Label-Required {
     border-radius: 4px;
     padding-top: 4px;
     padding-bottom: 4px;
@@ -295,41 +319,21 @@ form {
     height: 48px;
     flex: 1;
     width: 100%;
-    max-width: 410px;
+    /* max-width: 410px; */
     background: #eaedf2;
     font-size: 18px;
 }
-@media screen and (max-width: 480px) {
-    .Form-Item-Input {
+@media screen and (max-width: 640px) {
+.Form-Item-Input {
     margin-left: 0;
     margin-top: 18px;
     height: 40px;
     flex: inherit;
     font-size: 15px;
+    width: 90%;
     }
 }
-.Form-Item-Textarea {
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    margin-left: 40px;
-    padding-left: 1em;
-    padding-right: 1em;
-    height: 216px;
-    flex: 1;
-    width: 100%;
-    max-width: 410px;
-    background: #eaedf2;
-    font-size: 18px;
-}
-@media screen and (max-width: 480px) {
-    .Form-Item-Textarea {
-    margin-top: 18px;
-    margin-left: 0;
-    height: 200px;
-    flex: inherit;
-    font-size: 15px;
-    }
-}
+
 .Form-Btn {
     border-radius: 6px;
     margin-top: 32px;
@@ -345,8 +349,8 @@ form {
     font-weight: bold;
     font-size: 20px;
 }
-@media screen and (max-width: 480px) {
-    .Form-Btn {
+@media screen and (max-width: 640px) {
+.Form-Btn {
     margin-top: 24px;
     padding-top: 8px;
     padding-bottom: 8px;
@@ -438,13 +442,6 @@ form {
 
 /* ---------------- ボタンhover コピペ*/
 .btn1 {
-    text-align: center;
-    padding: 0px;
-    margin: 0;
-    color: white;
-}
-
-.btn1 {
     display: inline-block;
     width: 200px;
     height: 54px;
@@ -452,28 +449,10 @@ form {
     text-decoration: none;
     line-height: 54px;
     outline: none;
-}
-
-.btn1::before,
-.btn1::after {
-    position: absolute;
-    z-index: -1;
-    display: block;
-    content: '';
-}
-.btn1,
-.btn1::before,
-.btn1::after {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    -webkit-transition: all .3s;
-    transition: all .3s;
-}
-
-.btn1 {
     background-color:white;
     color: rgb(10, 10, 10);
+    font-size: 18px; 
+    border-radius: 4px;
 }
 .btn1:hover {
     background-color: rgb(112, 106, 105);
@@ -481,21 +460,14 @@ form {
     color: white;
 }
 /* ---------------- */
-
 .btn_top  {
     text-align: center;
+    margin-right: 50px;
 }
 
 .btn_top1  {
     text-align: right;
 }
-
-.btn1 { 
-    /* width: 140px; */
-    /* height: 50px; */
-    font-size: 18px; 
-    border-radius: 4px;
-} 
 
 .btn2 {
     width: 140px;
@@ -518,7 +490,6 @@ form {
     border-radius: 8px;
     background-color:rgb(254, 255, 254);
     color: rgb(31, 30, 30);
-
 }
 
 .btn3:hover {
@@ -527,56 +498,33 @@ form {
     color: rgb(249, 251, 253);
 }
 
-.btn4 {
-    width: 70px;
-    height: 40px;
-    font-size: 18px; 
-    border-radius: 8px;
-    /* background-color:rgb(193, 231, 248);  */
-    color: rgb(68, 147, 238);
-    text-align: center;
-    text-decoration: underline;
-    padding: 0;
-    
-}
-
 .btn4:hover {
-    /* background-color: rgb(59, 56, 250); */
     opacity: 1.0;
     color: rgb(194, 233, 248);
 }
 
 .btn4 {
-    width: 70px;
+    /* width: 200px; */
     height: 28px;
-    font-size: 20px; 
+    font-size: 24px; 
     border-radius: 8px;
-    /* background-color:rgb(193, 231, 248); */
     color: rgb(68, 147, 238);
     text-align: center;
     text-decoration: underline;
-    padding: 0;  
+    padding: 10px 30px;  
 }
-
-/* .btn4:hover {
-    / background-color: rgb(59, 56, 250); /
-    opacity: 1.0;
-    color: rgb(194, 233, 248);
-} */
 
 .btn5 {
     width: 70px;
     height: 36px;
     font-size: 20px; 
     border-radius: 8px;
-    /* background-color:rgb(193, 231, 248); */
     color: rgb(5, 5, 5);
     text-align: center;
     padding: 0;
 }
     
 .btn5:hover {
-    /* background-color: rgb(59, 56, 250); */
     opacity: 1.0;
     color: rgb(193, 200, 202);
 }

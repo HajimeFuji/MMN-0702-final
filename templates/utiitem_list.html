@@ -4,10 +4,10 @@
 <h2>おうちごとリスト</h2>
 
 <!-- <table border="1"> -->
-<table class="table_list" width="800px">
+<table class="table_list" width="60%">
     <thead>   
         <tr>
-            <th>番号</th>
+            <!-- <th>番号</th> -->
             <th>アイテム</th>
             <th></th>
             <th></th>
@@ -15,17 +15,15 @@
     </thead> 
     {% for item in utiitem_list %}
         <tr>
-            <td>{{item["id"]}}</td>
-            <td><a href="/tasklist/{{item['id']}}">{{item['item']}}</a></td>
+            <!-- <td>{{item["id"]}}</td> -->
+            <th label="アイテム"><a href="/tasklist/{{item['id']}}" class="btn4">{{item['item']}}</a></th>
             <td><a href="/edit/uti/{{item['id']}}" class="btn4">編集</a></td>
-            <!-- <td><a href="/del/uti/{{item['id']}}">削除</a></td> -->
-            <!-- 削除ダイアログ追加 -->
             <td><a href="/del/uti/{{item['id']}}" onclick="return confirm('削除しますか？')" class="btn4">削除</a></td>
         </tr>
     {% endfor %}
 </table>
 
-<p class="bs">アイテム追加</p>
+<h3>アイテム追加</h3>
 
 <form action="/add/item/uti" method="POST">
     <!-- 上のaction, method は送り先 -->
@@ -43,26 +41,19 @@
                 <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>アイテム名<br>（半角英数）</p>
                 <input type="text" name="table_name" class="Form-Item-Input" placeholder="例）kaidan">
             </div>
-            <!-- <input type="submit" class="Form-Btn" value="送信する"> -->
         </div>
-   
 
 <!-- -----------------------追加ボタン移動 -->
-    <div class="form_list">
+    <div>
         <button type="submit" class="btn1">新規追加</button>
     </div>    
 
 </form>    
 
-<!-- <p><a href="/index">トップに戻る</a></p> -->
-
-    <!-- class追加 -->
     <div class="btn_top1">
         <a href="/index" type="button" class="btn5">トップに戻る
             <!-- <button type="button" class="btn1">トップに戻る</button> -->
         </a>
     </div>            
-
-
 
 {% endblock %}
