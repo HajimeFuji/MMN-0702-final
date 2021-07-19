@@ -9,7 +9,7 @@
             <!-- <th>番号</th> -->
             <th>アイテム</th>
             <th></th>
-            <th></th>
+            <!-- <th></th> -->
         </tr>
     </thead>
     {% for item in niwaitem_list %}  
@@ -18,10 +18,12 @@
         <tr>
             <!-- <td>{{item["id"]}}</td> -->
             <th label="アイテム"><a href="/tasklist_niwa/{{item['id']}}" class="btn4">{{item['item']}}</a></th>
-            <td><a href="/edit/niwa/{{item['id']}}" class="btn4">編集</a></td>
-            <!-- <td><a href="/del/niwa/{{item['id']}}">削除</a></td> -->
-            <!-- 削除ダイアログボックス追加 -->
-            <td><a href="/del/niwa/{{item['id']}}" onclick="return confirm('削除しますか？')" class="btn4">削除</a></td>
+            <td>
+                <div class="btn_top">
+                    <a href="/edit/niwa/{{item['id']}}" class="btn4">編集</a>
+                    <a href="/del/niwa/{{item['id']}}" onclick="return confirm('削除しますか？')" class="btn4">削除</a>
+                </div>
+            </td>
         </tr>
     </tbody>
     {% endfor %}
