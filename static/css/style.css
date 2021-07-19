@@ -9,6 +9,7 @@ body, h1, h2, h3, h4, h5, p, ul, ol, li, dl, dt, dd {
 	margin: 0px;
 	padding: 0px;
 }
+
 body {
 	background: #fff;
 	text-align: center;
@@ -17,9 +18,12 @@ body {
 	min-width: 100%;
 	-webkit-text-size-adjust: 100%;
 }
+
 li {
 	list-style: none;
-}a {
+}
+
+a {
 	outline: none;
 	color: inherit;
 	text-decoration: none;
@@ -70,10 +74,10 @@ strong {
 .top {
     width: 100%;    
     background-color: rgb(235, 231, 222);
-    font-size: 40px;
+    font-size: 24px;
     padding: 10px;
     text-align: center;
-    font-family: fantasy;
+    /* font-family: fantasy; */
     letter-spacing: 2px;
     /* opacity: 0.8; */
 }
@@ -84,7 +88,7 @@ strong {
 }
 
 .item_top {
-    font-size: 30px;
+    font-size: 20px;
     font-style: italic;
     color: black;
     border-radius: 5px;
@@ -93,7 +97,6 @@ strong {
     margin-left: 5px;
     margin-bottom: 5px;
     opacity: 0.5;
-    
 }
 
 body {
@@ -102,33 +105,33 @@ body {
 
 p  {
     text-align: center;
-    font-size: 24px;
+    font-size: 20px;
     /* padding: 0 0 0 50px; */
     /* text-align: left; */
 } 
 
 a {
     color:black;
-    padding: 10px 30px;
+    padding: 10px 10px;
     display: inline-block;
     font-size: 24px;
 } 
 
 h1 {
-    font-size: 36px;
+    font-size: 24px;
     margin: 30px; 
     text-align:center;
 }
 
 h2 {
-    font-size: 36px;
+    font-size: 20px;
     margin: 30px; 
     text-align:center;
     border-bottom: solid 4px rgb(105, 96, 96);    
 }
 
 h3 {
-    font-size: 24px;
+    font-size: 18px;
     text-align:center;
     margin: 30px; 
 }
@@ -149,12 +152,12 @@ table {
 } 
 
 table th {
-    font-size: 24px;
+    font-size: 20px;
     padding: 0;
 }
 
 td {
-    font-size: 24px;
+    font-size: 20px;
 }
 
 /* テーブルコード コピペ*/
@@ -176,7 +179,7 @@ td {
 .table_list tbody th {
 	background:#7fcad8;
 	color:#FFF;
-	padding:10px 15px;
+	padding:5px 15px;
 	border-bottom:#FFF solid 1px;
 	vertical-align:middle;
 }
@@ -187,13 +190,13 @@ td {
 
 .table_list tbody td {
 	background:#FFF;
-	padding:10px 15px;
+	padding:5px 15px;
 	/* border-left:#3EB1C6 solid 1px; */
 	border-bottom:#3EB1C6 solid 1px;
 	vertical-align:middle;
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 768px) {
 .table_list thead {
     display:none;
 }
@@ -252,7 +255,7 @@ form {
     display: flex;
     align-items: center;
 }
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 768px) {
 .Form-Item {
     padding-left: 14px;
     padding-right: 14px;
@@ -272,7 +275,7 @@ form {
     font-size: 18px;
     text-align: left;
 }
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 768px) {
     .Form-Item-Label {
     max-width: inherit;
     display: block;
@@ -284,7 +287,7 @@ form {
     margin-top: 8px;
     margin-bottom: auto;
 }
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 768px) {
 .Form-Item-Label.isMsg {
     margin-top: 0;
     }
@@ -301,7 +304,7 @@ form {
     color: rgb(61, 60, 60);
     font-size: 14px;
 }
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 768px) {
 .Form-Item-Label-Required {
     border-radius: 4px;
     padding-top: 4px;
@@ -323,7 +326,7 @@ form {
     background: #eaedf2;
     font-size: 18px;
 }
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 768px) {
 .Form-Item-Input {
     margin-left: 0;
     margin-top: 18px;
@@ -349,7 +352,7 @@ form {
     font-weight: bold;
     font-size: 20px;
 }
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 768px) {
 .Form-Btn {
     margin-top: 24px;
     padding-top: 8px;
@@ -462,7 +465,6 @@ form {
 /* ---------------- */
 .btn_top  {
     text-align: center;
-    margin-right: 50px;
 }
 
 .btn_top1  {
@@ -506,12 +508,12 @@ form {
 .btn4 {
     /* width: 200px; */
     height: 28px;
-    font-size: 24px; 
+    font-size: 20px; 
     border-radius: 8px;
     color: rgb(68, 147, 238);
     text-align: center;
     text-decoration: underline;
-    padding: 10px 30px;  
+    padding: 5px 10px;  
 }
 
 .btn5 {
