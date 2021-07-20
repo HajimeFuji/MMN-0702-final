@@ -1,16 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
     
-<h2>今週 "{{time7}}～{{today}}" の通知</h2>
+
 
 <div class="btn_top">
-    <a href="/notice/tasklist/lw">
-        <button type="button" class="btn1">先週の通知</button>
-    </a>
-    <a href="/notice/tasklist/nw">
-        <button type="button" class="btn1">来週の通知</button>
-    </a>
+    <a href="/notice/tasklist/lw" class="btn4"><< 先週の通知</a>
+    <a href="/notice/tasklist/nw" class="btn4">来週の通知 >></a>
 </div>    
+
+<h2>今週 "{{time7}}～{{today}}" の通知</h2>
 
 <table class="table_list" width="80%">
     <thead>
