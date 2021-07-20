@@ -215,7 +215,7 @@ def notice_tasklist_nt(id,taskid):
     ntlist = []
     nt_list = []
     for row in c.fetchall():
-    # row[0]をtable_nameの変数としてselect　# noticeがtoday と一致するタスクをセレクト
+    # row[0]をtable_nameの変数としてselect # noticeがtoday と一致するタスクをセレクト
         c.execute("select items.item, %s.date, %s.task, %s.notice, items.id, %s.taskid FROM items JOIN %s ON items.id = %s.item_id where notice <= ? and notice >= ? and nt_id =0" % (row[0],row[0],row[0],row[0],row[0],row[0]), (today,time7,))
         ntlist = []
         notice_list = c.fetchall()
@@ -489,27 +489,21 @@ def tasklist(id):
     item = c.fetchone()[0]
     c.execute("select table_name from items where id = ?" , (id,))
     table_name = c.fetchone()[0]
-    # print(table_name)
-    # table = "table_name"
     c.execute("select taskid, date, task, notice, nt_id from %s" % (table_name))
-    # tasklist = c.fetchall()
+    tasklist = []
     task_list = []
-    #     # # タプル型(task, )から[0]要素を取り出す
-    for row in c.fetchall():    
-        task_list.append({"taskid":row[0],"date":row[1], "task":row[2],"notice":row[3], "nt_id":row[4]})
-    #     print(task_list)
-    # for 'nt_id' in task_list:
-    #     # print(row2[4])
-    #     print(nt_id)
-    #     if 'nt_id' == 1:
-    #         'nt_id' = "済み"
-    #     elif 'nt_id' == 0:
-    #         'nt_id' = "要"
-    #         print(task_list)
+    for row in c.fetchall():
+        # print(row[4])
+        tasklist = dict({"taskid":row[0],"date":row[1], "task":row[2],"notice":row[3], "nt_id":row[4]})
+        if tasklist["nt_id"] == 1:
+            tasklist["nt_id"] = "done"
+        else:
+            tasklist["nt_id"] = "set"
+            # print(tasklist)
+        task_list.append(tasklist) 
     c.close()
     return render_template("tasklist.html" , task_list = task_list, table_name = table_name, item = item, id = id)
-#     else:
-#         return redirect("/login")
+    # return redirect("/login")
 
 # DBに保存されているタスクをリストしてみよう（にわ）
 @app.route("/tasklist_niwa/<int:id>")
@@ -525,10 +519,15 @@ def tasklist_niwa(id):
     # print(table_name)
     # table = "table_name"
     c.execute("select taskid, date, task, photo, notice, nt_id from %s" % (table_name))
+    tasklist = []
     task_list = []
-        # # タプル型(task, )から[0]要素を取り出す
-    for row in c.fetchall():    
-        task_list.append({"taskid":row[0],"date":row[1], "task":row[2],"photo":row[3],"notice":row[4],"nt_id":row[5]})
+    for row in c.fetchall():
+        tasklist = dict({"taskid":row[0],"date":row[1], "task":row[2],"photo":row[3],"notice":row[4],"nt_id":row[5]})
+        if tasklist["nt_id"] == 1:
+            tasklist["nt_id"] = "done"
+        else:
+            tasklist["nt_id"] = "set"
+        task_list.append(tasklist) 
     c.close()
     return render_template("tasklist_niwa.html" , task_list = task_list, table_name = table_name, item = item, id = id)
 #     else:
