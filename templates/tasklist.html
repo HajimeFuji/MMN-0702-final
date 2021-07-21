@@ -47,10 +47,27 @@
             <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">必須</span>作業実施日</p>
             <input type="date" name="date" class="Form-Item-Input" placeholder="例）2021-1-23">
         </div>
-        <div class="Form-Item">
+        <!-- <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>作業内容</p>
             <input name="task" type="text" class="Form-Item-Input" placeholder="例）作業色々記入">
-            </div>        
+        </div>    -->
+        <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>作業内容</p>
+            <input type="text" name="task"  class="Form-Item-Input" list="item_list" placeholder="optionクリックもしくはテキスト入力" autocomplete="off">
+            <datalist class="Form-Item-Input" id="item_list">
+                <option value="全面窓ふき">全面窓ふき</option>
+                <option value="1Fのみ作業">1Fのみ作業</option>
+                <option value="分解掃除">分解掃除</option>
+                <option value="フィルター交換">フィルター交換</option>
+                <option value="内部清掃">内部清掃</option>
+                <option value="カビ取り">カビ取り</option>
+                <option value="夏タイヤに交換">夏タイヤに交換</option>
+                <option value="冬タイヤに交換">冬タイヤに交換</option>
+                <option value="オイル交換">オイル交換</option>
+                <option value="車検">車検</option>
+                <option value="壁補修、塗装">壁補修、塗装</option>
+            </datalist>
+        </div>       
         <div class="Form-Item">
             <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">必須</span>次回通知</p>
             <input name="notice" type="date" class="Form-Item-Input" placeholder="例）2021-1-23">
