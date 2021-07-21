@@ -48,10 +48,22 @@
             <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">必須</span>実施日</p>
             <input name="date" type="date" class="Form-Item-Input" placeholder="例）2021/1/23">
         </div>
-        <div class="Form-Item">
+        <!-- <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>作業内容</p>
             <input name="task" type="text" class="Form-Item-Input" placeholder="例）作業いろいろ">
-        </div>
+        </div> -->
+        <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>作業内容</p>
+            <input type="text" name="task"  class="Form-Item-Input" list="item_list" placeholder="optionクリックもしくはテキスト入力" autocomplete="off">
+            <datalist class="Form-Item-Input" id="item_list">
+                <option value="雑草取り">雑草取り</option>
+                <option value="剪定">剪定</option>
+                <option value="花が咲いた!">花が咲いた!</option>
+                <option value="収穫開始">収穫開始</option>
+                <option value="収穫終了">収穫終了</option>
+                <option value="冬囲い">冬囲い</option>
+            </datalist>
+        </div> 
         <div class="Form-Item">
             <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">必須</span>写真のリンク</p>
             <input name="photo" type="url" class="Form-Item-Input" placeholder="https.//">

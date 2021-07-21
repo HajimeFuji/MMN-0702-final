@@ -47,6 +47,9 @@ header {
     height: 80px;
 } 
 
+.my-gray {color: gray}
+
+.my-orange {color: #eca130}
 
 .img_base {
     width: 80%;    
@@ -261,6 +264,7 @@ form {
     padding-right: 14px;
     padding-top: 16px;
     padding-bottom: 16px;
+    width: 95%;
     flex-wrap: wrap;
     }
 }
@@ -333,7 +337,7 @@ form {
     height: 40px;
     flex: inherit;
     font-size: 15px;
-    width: 90%;
+    width: 95%;
     }
 }
 
@@ -373,8 +377,8 @@ input[type=checkbox] {
 #nav{
     position: absolute;
     top: 0;
-    left: -35%;
-    width: 33%;
+    left: -40%;
+    width: 40%;
     height: 100vh;
     background-color:#ffffff;
     transition: .7s;
