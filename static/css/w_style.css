@@ -374,7 +374,7 @@ input[type=checkbox] {
 
 /* ------------------------フォームここまで */
 
-#nav{
+/* #nav{
     position: absolute;
     top: 0;
     left: -40%;
@@ -441,7 +441,7 @@ input[type=checkbox] {
 }
 .line_1 {
 /*-45度回転させる*/
-    transform: rotate(-30deg);
+    /* transform: rotate(-30deg);
     top: 0;
 }
 .line_2 {
@@ -449,8 +449,240 @@ input[type=checkbox] {
 }
 .line_3 {
     /*45度回転させる*/
-    transform: rotate(30deg);
+    /* transform: rotate(30deg);
     bottom: 0;
+} */
+
+/* 2021.8.4 */
+ul,div,img {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    font-weight: normal;
+}
+
+#main {
+    margin-top: 60px;
+}
+
+#nav {
+    background-color: #FFF;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 60px;
+    width: 100%;
+}
+
+/* 左上ロゴ */
+.menu-left {
+    float: left;
+    line-height: 60px;
+}
+.menu-left img {
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+/* 上部メニュー */
+.menu {
+    float: right;
+    margin-right: 10px;
+}
+.menu-parent {
+    float: left;
+    margin-right: 30px;
+    line-height: 60px;
+    font-size: 17px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* パソコンでは V を非表示 */
+.menu-parent .pd {
+    display: none;
+}
+  /* 上部メニューの最後の項目 */
+.menu-parent:last-child {
+    margin-right: 0px;
+}
+
+#menu-navibtn {
+    display: none;
+    cursor: pointer;
+    cursor: hand;
+}
+
+@media screen and (max-width: 620px) {
+    /* スマホの際に V を表示 */
+.menu-parent .pd {
+    display: inline-block;
+    width: 100%;
+}
+.menu {
+    display: none;
+}
+.menu-parent {
+    height: auto;
+    width: 100%;
+    padding: 0px 20px;
+    border-bottom: 1px solid #DDD;
+}
+.menu-parent:first-child {
+    border-top: 1px solid #DDD;
+}
+.menu-parent i {
+    padding: 0px 6px;
+}
+    /* メニューを移動させないため */
+#menu-navibtn:checked ~ #nav {
+    position: fixed;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
+}
+}
+
+/* ドロップダウンメニュー */
+.menu-parent {
+    position: relative;
+}
+.menu-parent .menu-child {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    margin-left: -40px;
+    width: auto;
+    box-sizing: border-box;
+    padding: 0px 20px;
+    background-color: #FFF;
+    border: 1px solid #000;
+}
+/* パソコン用 */
+@media screen and (min-width: 620px) {
+.menu-parent:hover .menu-child {
+    visibility: visible;
+    opacity: 1;
+}
+}
+/* スマホ用 */
+@media screen and (max-width: 620px) {
+    /* ハンバーガーメニューがクリックされた時 */
+#menu-navibtn:checked ~ * .menu {
+    display: block;
+    opacity: 1;
+}
+#menu-navibtn:checked ~ * .menu-parent {
+    max-height: inherit;
+    overflow-y: visible;
+}
+#menu-navibtn:checked ~ * .menu-child {
+    max-height: 0;
+    overflow-y: hidden;
+    visibility: hidden;
+}
+    /* 子メニュー */
+.menu-parent .menu-child {
+    border-top: 1px solid #DDD;
+    border-left: 1px solid #FFF;
+    border-right: 1px solid #FFF;
+    border-bottom: 1px solid #FFF;
+    position: relative;
+    padding: 0 20px;
+    opacity: 1;
+    top: 0;
+    margin-left: auto;
+    left: auto;
+    width: auto;
+}
+.menu-parent > label:hover {
+    cursor: pointer;
+    cursor: hand;
+}
+  /* 子メニューがクリックされた時 */
+#nav input[type="checkbox"]:checked ~ .menu-child {
+    max-height: inherit;
+    overflow-y: visible;
+    visibility: visible;
+}
+.angletoggle:before {
+    content: "\f107";
+}
+#nav input[type="checkbox"]:checked ~ * .angletoggle:before {
+    content: "\f106";
+}
+}
+/* 子メニュー */
+.menu-child li {
+    font-size: 14px;
+    border-bottom: 1px solid #DDD;
+}
+  /* 余分な最後の線を消去 */
+.menu-child li:last-child {
+    border: none;
+}
+.menu-child li i {
+    margin-right: 3px;
+}
+
+/* ハンバーガー */
+#nav #navibtn {
+    display: none;
+}
+@media screen and (max-width: 620px) {
+#nav #navibtn {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+#navibtn span {
+    display: block;
+    width: 40px;
+    height: 40px;
+    background-color: #333;
+}
+#navibtn span span {
+    display: block;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+}
+#navibtn span span::before,
+#navibtn span span::after,
+#navibtn span::after {
+    position: absolute;
+    left:10px;
+    content:"";
+    width: 20px;
+    height: 3px;
+    background-color: #FFF;
+}
+    /* 上の棒 */
+#navibtn span span::before {
+    top:10px;
+}
+#menu-navibtn:checked ~ #nav label#navibtn span span::before {
+    top:19px;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+    /* 下の棒 */
+#navibtn span::after {
+    bottom:10px;
+}
+#menu-navibtn:checked ~ #nav label#navibtn > span::after {
+    bottom:18px;
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+    /* 中の棒 */
+#navibtn span span::after {
+    top:18px;
+}
+#menu-navibtn:checked ~ #nav label#navibtn span span::after {
+    display: none;
+}
 }
 
 /* ---------------- ボタンhover コピペ*/
