@@ -1023,6 +1023,28 @@ def w_tasklist(id):
     return render_template("w_tasklist.html" , w_task_list = task_list, table_name = table_name, room = room, id = id)
     # return redirect("/login")
 
+# 8/16 部屋ごとのアイテムをリストしてみよう
+@app.route("/w_itemlist/<int:id>")
+def w_itemlist(id):
+    conn = sqlite3.connect("w_maintenance.db")
+    c = conn.cursor()
+    c.execute("select id from items where id = ?" , (id,))
+    id = c.fetchone()[0]
+    c.execute("select room from items where id = ?" , (id,))
+    room = c.fetchone()[0]
+    print(room)
+    c.execute("select table_name from items where id = ?" , (id,))
+    table_name = c.fetchone()[0]
+    c.execute("select taskid, item, pro_date, pro_number, set_date from %s" % (table_name))
+    itemlist = []
+    item_list = []
+    for row in c.fetchall():
+        itemlist = dict({"taskid":row[0],"item":row[1], "pro_date":row[2],"pro_number":row[3], "set_date":row[4]})
+        item_list.append(itemlist) 
+    c.close()
+    return render_template("w_itemlist.html" , w_item_list = item_list, table_name = table_name, room = room, id = id)
+    # return redirect("/login")
+
 # 追加の処理/タスク
 @app.route("/add/w_tasklist/<int:id>",methods=["POST"])
 def add_post_w_task(id):
