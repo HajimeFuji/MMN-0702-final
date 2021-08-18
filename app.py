@@ -1240,6 +1240,7 @@ def del_w_tasklist(id,t_id,taskid):
 @app.route("/notice/w_tasklist")
 def notice_w_tasklist():
     today = dt.date.today()
+    print(today)
     time7 = today + dt.timedelta(days=-7)
     conn = sqlite3.connect("w_maintenance.db")
     c = conn.cursor()

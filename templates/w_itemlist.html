@@ -25,7 +25,7 @@
             <th label="アイテム"><a href="/w_tasklist/{{id}}/{{item['t_id']}}" class="btn4">{{item['item']}}</a></th>
             <td label="製造日　"><p>{{item["pro_date"]}}</p></td>
             <td label="製造番号"><p>{{item["pro_number"]}}</p></td>
-            <td label="使用開始"><p>{{item["set_date"]}}</p></td>
+            <td label="使用開始日"><p>{{item["set_date"]}}</p></td>
             <!-- <td label="実施日　"><p>{{item["t_date"]}}</p></td>
             <td label="作業内容"><p>{{item["task"]}}</p></td>
             <td label="次回通知"><p>{{item["notice"]}}</p></td>
@@ -45,7 +45,7 @@
 
 <form action="/add/w_itemlist/{{id}}" method="POST">
     <!-- 上のaction, method は送り先 -->
-        <h3>作業内容追加</h3>
+        <h3>アイテム追加</h3>
 
     <div class="Form">
         <div class="Form-Item">   
@@ -78,7 +78,7 @@
             <input type="text" name="pro_number" class="Form-Item-Input" placeholder="例）1111">
         </div>
         <div class="Form-Item">
-            <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">必須</span>使用開始</p>
+            <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">必須</span>使用開始日</p>
             <input type="date" name="set_date" class="Form-Item-Input" placeholder="例）2021-1-23">
         </div>
         <!-- <div class="Form-Item">
