@@ -255,8 +255,8 @@ form {
 
 .Form-Item {
     border-top: 1px solid #ddd;
-    padding-top: 24px;
-    padding-bottom: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
     width: 100%;
     display: flex;
     align-items: center;
