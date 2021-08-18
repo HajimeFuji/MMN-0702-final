@@ -998,9 +998,9 @@ def del_room_camp(id):
     conn.close()
     return redirect("/list/camp")
 
-# DBに保存されているタスクをリストしてみよう
-@app.route("/w_tasklist/<int:id>")
-def w_tasklist(id):
+# 8/16 部屋ごとのアイテムをリストしてみよう
+@app.route("/w_itemlist/<int:id>")
+def w_itemlist(id):
     conn = sqlite3.connect("w_maintenance.db")
     c = conn.cursor()
     c.execute("select id from items where id = ?" , (id,))
@@ -1009,48 +1009,44 @@ def w_tasklist(id):
     room = c.fetchone()[0]
     c.execute("select table_name from items where id = ?" , (id,))
     table_name = c.fetchone()[0]
-    c.execute("select taskid, item, pro_date, pro_number, set_date, t_date, task, notice, nt_id from %s" % (table_name))
-    tasklist = []
-    task_list = []
+    c.execute("select taskid, t_id, item, pro_date, pro_number, set_date from %s where pro_date is NOT NULL" % (table_name))
+    itemlist = []
+    item_list = []
     for row in c.fetchall():
-        tasklist = dict({"taskid":row[0],"item":row[1], "pro_date":row[2],"pro_number":row[3], "set_date":row[4], "t_date":row[5],"task":row[6], "notice":row[7], "nt_id":row[8]})
-        if tasklist["nt_id"] == 1:
-            tasklist["nt_id"] = "done"
-        else:
-            tasklist["nt_id"] = "set"
-        task_list.append(tasklist) 
+        itemlist = dict({"taskid":row[0],"t_id":row[1], "item":row[2], "pro_date":row[3],"pro_number":row[4], "set_date":row[5]})
+        item_list.append(itemlist) 
     c.close()
-    return render_template("w_tasklist.html" , w_task_list = task_list, table_name = table_name, room = room, id = id)
+    return render_template("w_itemlist.html" , w_item_list = item_list, table_name = table_name, room = room, id = id)
     # return redirect("/login")
 
-# 追加の処理/タスク
-@app.route("/add/w_tasklist/<int:id>",methods=["POST"])
-def add_post_w_task(id):
+# 8/17 部屋ごとのアイテム追加の処理
+@app.route("/add/w_itemlist/<int:id>",methods=["POST"])
+def add_post_w_item(id):
     # user_id = session["user_id"]
     item = request.form.get("item")
+    t_id = request.form.get("t_id")
     pro_date = request.form.get("pro_date")
     pro_number = request.form.get("pro_number")
-    pro_number = int(pro_number)
     set_date = request.form.get("set_date")
     t_date = request.form.get("t_date")
     task = request.form.get("task")
     notice = request.form.get("notice")
     nt_id = request.form.get("nt_id")
-    nt_id = int(nt_id)
+    # nt_id = int(nt_id)
     conn = sqlite3.connect("w_maintenance.db")
     c = conn.cursor()
         #()はタプル型
     c.execute("select table_name from items where id = ?" , (id,))
     table_name = c.fetchone()[0]
-    c.execute("insert into %s values (null,?,?,?,?,?,?,?,?,?)" % (table_name), (id,item,pro_date,pro_number,set_date,t_date,task,notice,nt_id))
+    c.execute("insert into %s values (null,?,?,?,?,?,?,?,?,?,?)" % (table_name), (id,t_id,item,pro_date,pro_number,set_date,t_date,task,notice,nt_id))
     conn.commit()
     c.close()
     # return render_template("tasklist.html" , task_list = task_list, table_name = table_name, item = item, id = id)
-    return redirect("/w_tasklist/%s" %(id))  
+    return redirect("/w_itemlist/%s" %(id))  
 
-# # # 編集変更したデータで更新/タスク
-@app.route("/edit/w_tasklist/<int:id>/<int:taskid>")
-def edit_w_tasklist_get(id,taskid):
+# 8/17 編集変更したデータで部屋ごとのアイテム更新
+@app.route("/edit/w_itemlist/<int:id>/<int:taskid>")
+def edit_w_itemlist_get(id,taskid):
     conn = sqlite3.connect("w_maintenance.db")
     c = conn.cursor()
     c.execute("select table_name from items where id = ?" , (id,))
@@ -1073,10 +1069,10 @@ def edit_w_tasklist_get(id,taskid):
     nt_id = c.fetchone()[0] 
     c.close()
     task_list = {"taskid":taskid,"item":item, "pro_date":pro_date,"pro_number":pro_number,"set_date":set_date,"t_date":t_date, "task":task, "notice":notice, "nt_id":nt_id}
-    return render_template("w_edit_tasklist.html", task_list = task_list, id = id)
+    return render_template("w_edit_itemlist.html", task_list = task_list, id = id)
 
-@app.route("/edit/w_tasklist/<int:id>", methods = ["POST"])
-def w_tasklist_update(id):
+@app.route("/edit/w_itemlist/<int:id>", methods = ["POST"])
+def w_itemlist_update(id):
     taskid = request.form.get("taskid")
     taskid = int(taskid)
     item = request.form.get("item")
@@ -1101,11 +1097,11 @@ def w_tasklist_update(id):
     c.execute("update %s set nt_id=? where taskid = ?" %(table_name), (nt_id,taskid,))
     conn.commit()
     c.close()
-    return redirect("/w_tasklist/%s" %(id))  
+    return redirect("/w_itemlist/%s" %(id))  
 
-# タスクリストから タスクの削除
-@app.route("/del/w_tasklist/<int:id>/<int:taskid>")
-def del_w_tasklist(id,taskid):
+# 8/17 部屋ごとのアイテムリストからアイテムの削除
+@app.route("/del/w_itemlist/<int:id>/<int:taskid>")
+def del_w_itemlist(id,taskid):
     conn = sqlite3.connect("w_maintenance.db")
     c = conn.cursor()
     c.execute("select table_name from items where id = ?" , (id,))
@@ -1113,7 +1109,132 @@ def del_w_tasklist(id,taskid):
     c.execute("delete from %s where taskid=?" % (table_name), (taskid,))
     c = conn.commit()
     conn.close()
-    return redirect("/w_tasklist/%s" %(id)) 
+    return redirect("/w_itemlist/%s" %(id)) 
+
+# 8/17 部屋ごとのアイテムのタスクをリストしてみよう
+@app.route("/w_tasklist/<int:id>/<int:t_id>")
+def w_tasklist(id,t_id):
+    conn = sqlite3.connect("w_maintenance.db")
+    c = conn.cursor()
+    c.execute("select id from items where id = ?" , (id,))
+    id = c.fetchone()[0]
+    c.execute("select room from items where id = ?" , (id,))
+    room = c.fetchone()[0]
+    c.execute("select table_name from items where id = ?" , (id,))
+    table_name = c.fetchone()[0]
+    c.execute("select item from %s where t_id = ?" % (table_name), (t_id,))
+    item = c.fetchone()[0]
+    c.execute("select taskid, item, pro_date, pro_number, set_date, t_date, task, notice, nt_id from %s where t_id = ?" % (table_name), (t_id,))
+    tasklist = []
+    task_list = []
+    for row in c.fetchall():
+        tasklist = dict({"taskid":row[0],"item":row[1], "pro_date":row[2],"pro_number":row[3], "set_date":row[4], "t_date":row[5],"task":row[6], "notice":row[7], "nt_id":row[8]})
+        if tasklist["nt_id"] == 1:
+            tasklist["nt_id"] = "done"
+        else:
+            tasklist["nt_id"] = "set"
+        task_list.append(tasklist) 
+    c.close()
+    return render_template("w_tasklist.html" , w_task_list = task_list, table_name = table_name, room = room, id = id, item = item, t_id = t_id)
+    # return redirect("/login")
+
+# 8/17 部屋ごとのアイテムのタスク追加の処理
+@app.route("/add/w_tasklist/<int:id>/<int:t_id>",methods=["POST"])
+def add_post_w_task(id,t_id):
+    # user_id = session["user_id"]
+    t_id = request.form.get("t_id")
+    item = request.form.get("item")
+    pro_date = request.form.get("pro_date")
+    pro_number = request.form.get("pro_number")
+    set_date = request.form.get("set_date")
+    t_date = request.form.get("t_date")
+    task = request.form.get("task")
+    notice = request.form.get("notice")
+    nt_id = request.form.get("nt_id")
+    nt_id = int(nt_id)
+    conn = sqlite3.connect("w_maintenance.db")
+    c = conn.cursor()
+        #()はタプル型
+    c.execute("select table_name from items where id = ?" , (id,))
+    table_name = c.fetchone()[0]
+    c.execute("insert into %s values (null,?,?,?,?,?,?,?,?,?,?)" % (table_name), (id,t_id,item,pro_date,pro_number,set_date,t_date,task,notice,nt_id))
+    conn.commit()
+    c.close()
+    # return render_template("tasklist.html" , task_list = task_list, table_name = table_name, item = item, id = id)
+    return redirect("/w_tasklist/%s/%s" %(id, t_id,))  
+
+# 8/18 部屋ごとのアイテムのタスク編集変更したデータで更新
+@app.route("/edit/w_tasklist/<int:id>/<int:taskid>")
+def edit_w_tasklist_get(id,taskid):
+    conn = sqlite3.connect("w_maintenance.db")
+    c = conn.cursor()
+    c.execute("select table_name from items where id = ?" , (id,))
+    table_name = c.fetchone()[0]
+    c.execute("select t_id from %s where taskid=?" % (table_name), (taskid,))
+    t_id = c.fetchone()[0]
+    c.execute("select item from %s where taskid=?" % (table_name), (taskid,))
+    item = c.fetchone()[0]
+    c.execute("select pro_date from %s where taskid=?" % (table_name), (taskid,))
+    pro_date = c.fetchone()[0]  
+    c.execute("select pro_number from %s where taskid=?" % (table_name), (taskid,))
+    pro_number = c.fetchone()[0] 
+    c.execute("select set_date from %s where taskid=?" % (table_name), (taskid,))
+    set_date = c.fetchone()[0]  
+    c.execute("select t_date from %s where taskid=?" % (table_name), (taskid,))
+    t_date = c.fetchone()[0]
+    c.execute("select task from %s where taskid=?" % (table_name), (taskid,))
+    task = c.fetchone()[0]
+    c.execute("select notice from %s where taskid=?" % (table_name), (taskid,))
+    notice = c.fetchone()[0]   
+    c.execute("select nt_id from %s where taskid=?" % (table_name), (taskid,))
+    nt_id = c.fetchone()[0] 
+    c.close()
+    task_list = {"taskid":taskid,"t_id":t_id, "item":item, "pro_date":pro_date,"pro_number":pro_number,"set_date":set_date,"t_date":t_date, "task":task, "notice":notice, "nt_id":nt_id}
+    return render_template("w_edit_tasklist.html", task_list = task_list, id = id)
+
+@app.route("/edit/w_tasklist/<int:id>", methods = ["POST"])
+def w_tasklist_update(id):
+    taskid = request.form.get("taskid")
+    taskid = int(taskid)
+    t_id = request.form.get("t_id")
+    t_id = int(t_id)   
+    item = request.form.get("item")
+    pro_date = request.form.get("pro_date")
+    pro_number = request.form.get("pro_number")
+    set_date = request.form.get("set_date")
+    t_date = request.form.get("t_date")
+    task = request.form.get("task")
+    notice = request.form.get("notice")
+    nt_id = request.form.get("nt_id")
+    conn = sqlite3.connect("w_maintenance.db")
+    c =conn.cursor()
+    c.execute("select table_name from items where id = ?" , (id,))
+    table_name = c.fetchone()[0]
+    c.execute("update %s set t_id=? where taskid = ?" %(table_name), (t_id,taskid,))
+    c.execute("update %s set item=? where taskid = ?" %(table_name), (item,taskid,))
+    c.execute("update %s set pro_date=? where taskid = ?" %(table_name), (pro_date,taskid,))
+    c.execute("update %s set pro_number=? where taskid = ?" %(table_name), (pro_number,taskid,))
+    c.execute("update %s set set_date=? where taskid = ?" %(table_name), (set_date,taskid,))
+    c.execute("update %s set t_date=? where taskid = ?" %(table_name), (t_date,taskid,))
+    c.execute("update %s set task=? where taskid = ?" %(table_name), (task,taskid,))
+    c.execute("update %s set notice=? where taskid = ?" %(table_name), (notice,taskid,))
+    c.execute("update %s set nt_id=? where taskid = ?" %(table_name), (nt_id,taskid,))
+    conn.commit()
+    c.close()
+    return redirect("/w_tasklist/%s/%s" %(id, t_id,))
+
+#8/18 部屋ごとのアイテムのタスクリストから タスクの削除
+@app.route("/del/w_tasklist/<int:id>/<int:t_id>/<int:taskid>")
+def del_w_tasklist(id,t_id,taskid):
+    conn = sqlite3.connect("w_maintenance.db")
+    c = conn.cursor()
+    c.execute("select table_name from items where id = ?" , (id,))
+    table_name = c.fetchone()[0]
+    c.execute("delete from %s where taskid=?" % (table_name), (taskid,))
+    print(t_id)
+    c = conn.commit()
+    conn.close()
+    return redirect("/w_tasklist/%s/%s" %(id, t_id,))
 
 # DBから通知を表示してみよう－今週の通知
 @app.route("/notice/w_tasklist")
