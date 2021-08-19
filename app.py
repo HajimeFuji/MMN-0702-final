@@ -1249,7 +1249,7 @@ def notice_w_tasklist():
     ntlist = []
     nt_list = []
     for row in c.fetchall():
-        c.execute("select items.room,  %s.item, %s.t_date, %s.task, %s.notice, items.id, %s.taskid FROM items JOIN %s ON items.id = %s.item_id where notice <= ? and notice >= ? and nt_id =0" % (row[0],row[0],row[0],row[0],row[0],row[0],row[0]), (today,time7,))
+        c.execute("select items.room,  %s.item, %s.t_date, %s.task, %s.notice, items.id, %s.taskid FROM items JOIN %s ON items.id = %s.item_id where notice <= ? and notice >= ? and nt_id =0 order by notice ASC" % (row[0],row[0],row[0],row[0],row[0],row[0],row[0]), (today,time7,))
         ntlist = []
         notice_list = c.fetchall()
     #todayと一致する項目があったものだけをntlist に append

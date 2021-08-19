@@ -33,6 +33,7 @@ a {
 	border: 0px;
 	vertical-align: bottom;
     text-align: center;
+	margin-top: 30px;
 }
 
 /* --------------------------------------------------- */
@@ -172,7 +173,7 @@ td {
 }
 
 .table_list thead th {
-    background: #3EB1C6;
+    background: #3ec672;
     padding: 10px 15px;
     border-bottom:#FFF solid 1px;
     color:#FFF;
@@ -183,7 +184,7 @@ td {
 } */
 
 .table_list tbody th {
-	background:#7fcad8;
+	background:#7fd895;
 	color:#FFF;
 	padding: 2px 15px;
 	border-bottom:#FFF solid 1px;
@@ -728,7 +729,7 @@ img {
 		background-color: #555;
 		color: #fff;
 		border: none;
-		padding: 5px;
+		padding:3px;
 		width: 50px;
 		letter-spacing: 0.1em;
 		cursor: pointer;
@@ -804,7 +805,7 @@ img {
 	.drawer_menu .drawer_nav {
 		display: block;
 		position: relative;
-		margin-top: 40px;
+		margin-top: 60px;
 	}
 
 	.drawer_menu .drawer_nav li {
