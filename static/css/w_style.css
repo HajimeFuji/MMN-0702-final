@@ -80,9 +80,16 @@ strong {
     font-size: 24px;
     padding: 16px 10px;
     text-align: center;
-    /* font-family: fantasy; */
-    /* letter-spacing: 2px; */
-    /* opacity: 0.8; */
+}
+
+@media screen and (max-width: 768px) {
+	.top {
+		width: 100%;    
+		background-color: rgb(235, 231, 222);
+		font-size: 24px;
+		padding: 16px 10px;
+		text-align: left;
+	}
 }
 
 .item_2 {
