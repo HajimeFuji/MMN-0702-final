@@ -80,6 +80,18 @@ strong {
     font-size: 24px;
     padding: 16px 10px;
     text-align: center;
+	/* padding-left: 50px; */
+}
+
+.top::after{
+	position:absolute;
+	display:inline-block;
+	/* height:24px; */
+	content:"";
+	width:2em;
+	height:2em;
+	background:url(../img/winkel_logo2_48.jpg) no-repeat;
+	background-size:contain;
 }
 
 @media screen and (max-width: 768px) {
@@ -89,6 +101,7 @@ strong {
 		font-size: 24px;
 		padding: 16px 10px;
 		text-align: left;
+		/* left: 50px; */
 	}
 }
 
