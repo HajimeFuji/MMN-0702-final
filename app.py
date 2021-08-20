@@ -1236,7 +1236,7 @@ def del_w_tasklist(id,t_id,taskid):
     conn.close()
     return redirect("/w_tasklist/%s/%s" %(id, t_id,))
 
-# DBから通知を表示してみよう－今週の通知
+# 8/20 DBから通知を表示してみよう－今週の通知
 @app.route("/notice/w_tasklist")
 def notice_w_tasklist():
     today = dt.date.today()
@@ -1294,9 +1294,9 @@ def notice_w_tasklist_nt(id,taskid):
                 nt_list.append({"room":row3[0],"item":row3[1],"t_date":row3[2],"task":row3[3],"notice":row3[4],"id":row3[5],"taskid":row3[6]})
     conn.commit()
     c.close()
-    return render_template("notice_list.html",nt_list = nt_list, today = today, time7 = time7)
+    return render_template("w_notice_list.html",nt_list = nt_list, today = today, time7 = time7)
 
-# DBから通知を表示してみよう－先週の通知
+#8/20 DBから通知を表示してみよう－先週の通知
 @app.route("/notice/w_tasklist/lw")
 def notice_w_tasklist_lw():
     today = dt.date.today()
@@ -1357,7 +1357,7 @@ def notice_w_tasklist_nt_lw(id,taskid):
     c.close()
     return render_template("w_notice_list_lw.html",nt_list = nt_list, today = today, time7 = time7, time14 = time14)
 
-# DBから通知を表示してみよう－来週の通知
+#8/20 DBから通知を表示してみよう－来週の通知
 @app.route("/notice/w_tasklist/nw")
 def notice_w_tasklist_nw():
     today = dt.date.today()
