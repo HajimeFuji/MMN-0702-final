@@ -1240,7 +1240,6 @@ def del_w_tasklist(id,t_id,taskid):
 @app.route("/notice/w_tasklist")
 def notice_w_tasklist():
     today = dt.date.today()
-    print(today)
     time7 = today + dt.timedelta(days=-7)
     conn = sqlite3.connect("w_maintenance.db")
     c = conn.cursor()
@@ -1260,6 +1259,7 @@ def notice_w_tasklist():
         for row3 in ntlist:
             if row3[0] is not None:
                 nt_list.append({"room":row3[0],"item":row3[1],"t_date":row3[2],"task":row3[3],"notice":row3[4],"id":row3[5],"taskid":row3[6]})
+    print(len(nt_list))
     c.close()
     return render_template("w_notice_list.html",nt_list = nt_list, today = today, time7 = time7)
     # return "該当する通知はありません"
@@ -1320,6 +1320,7 @@ def notice_w_tasklist_lw():
         for row3 in ntlist:
             if row3[0] is not None:
                 nt_list.append({"room":row3[0],"item":row3[1],"t_date":row3[2],"task":row3[3],"notice":row3[4],"id":row3[5],"taskid":row3[6]})
+    print(len(nt_list))
     c.close()
     return render_template("w_notice_list_lw.html",nt_list = nt_list, today = today, time7 = time7, time14 = time14)
     # return "該当する通知はありません"
@@ -1382,6 +1383,7 @@ def notice_w_tasklist_nw():
         for row3 in ntlist:
             if row3[0] is not None:
                 nt_list.append({"room":row3[0],"item":row3[1],"t_date":row3[2],"task":row3[3],"notice":row3[4],"id":row3[5],"taskid":row3[6]})
+    print(len(nt_list))
     c.close()
     return render_template("w_notice_list_nw.html",nt_list = nt_list, today = today, time_p7 = time_p7)
     # return "該当する通知はありません"
