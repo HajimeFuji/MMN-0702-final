@@ -15,7 +15,7 @@ body {
 	text-align: center;
 	font-size: 16px;
 	line-height: 1;
-	min-width: 100%;
+	width: 100vw;
 	-webkit-text-size-adjust: 100%;
 }
 
@@ -33,7 +33,7 @@ a {
 	border: 0px;
 	vertical-align: bottom;
     text-align: center;
-	margin-top: 30px;
+	/* margin-top: 30px; */
 }
 
 /* --------------------------------------------------- */
@@ -44,7 +44,7 @@ body {
 
 header {
     /* position: fixed; */
-    width: 100%;
+    width: 100vw;
     height: 80px;
 } 
 
@@ -53,7 +53,7 @@ header {
 .my-orange {color: #eca130}
 
 .img_base {
-    width: 80%;    
+    width: 100%;    
 }
 /* ---ヘッダーの固定が出来る */
 /* #page_top {
@@ -83,24 +83,23 @@ strong {
 	/* padding-left: 50px; */
 }
 
-.top::after{
+/* .top::after{
 	position:absolute;
 	display:inline-block;
-	/* height:24px; */
 	content:"";
 	width:2em;
 	height:2em;
 	background:url(../img/winkel_logo2_48.jpg) no-repeat;
 	background-size:contain;
-}
+} */
 
 @media screen and (max-width: 768px) {
 	.top {
 		width: 100%;    
 		background-color: rgb(235, 231, 222);
-		font-size: 24px;
-		padding: 16px 10px;
-		text-align: left;
+		font-size: 20px;
+		padding: 17.5px 10px;
+		text-align: center;
 		/* left: 50px; */
 	}
 }
@@ -154,6 +153,7 @@ h2 {
 	margin-top: 30px;
 	margin-bottom: 15px;
     text-align:center;
+	line-height: 1.8;
     border-bottom: solid 4px rgb(105, 96, 96);    
 }
 
@@ -190,10 +190,11 @@ td {
 /* テーブルコード コピペ*/
 .table_list{
     border-collapse: collapse;
+	margin-bottom: 20px;
 }
 
 .table_list thead th {
-    background: #3ec672;
+    background: #d8ca0c;
     padding: 10px 15px;
     border-bottom:#FFF solid 1px;
     color:#FFF;
@@ -204,7 +205,7 @@ td {
 } */
 
 .table_list tbody th {
-	background:#7fd895;
+	background:#e3dd88;
 	color:#FFF;
 	padding: 2px 15px;
 	border-bottom:#FFF solid 1px;
@@ -269,6 +270,7 @@ form {
 /* --------------------------フォームコピペ */
 .Form {
     margin-top: 20px;
+	padding-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
     max-width: 720px;
@@ -490,6 +492,7 @@ input[type=checkbox] {
     color: rgb(10, 10, 10);
     font-size: 18px; 
     border-radius: 4px;
+	margin-bottom: 20px;
 }
 .btn1:hover {
     background-color: rgb(112, 106, 105);
@@ -585,10 +588,10 @@ input[type=checkbox] {
 ul,
 div,
 img {
-  margin: 0px;
-  padding: 0px;
-  list-style: none;
-  font-weight: normal;
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+	font-weight: normal;
 }
 
 .drawer_menu a {
