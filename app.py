@@ -9,9 +9,14 @@ app = Flask(__name__)
 
 app.secret_key="sunabaco"
 
+# @app.route("/")
+# def init():
+#     return render_template('init.html')
+
 @app.route("/")
-def init():
-    return render_template('init.html')
+def helloWorld():
+    return render_template('index.html')
+#     return "Hello メンテナンスノート!!"
 
 # DBへの接続
 @app.route("/index")
